@@ -15,7 +15,7 @@ export interface ThemeConfig {
   spineVoiceLang: 'zh' | 'jp'
 
   //footer
-  footerName: string
+  footerName: YKChengZi
   poweredList: { name: string; url: string }[]
 
   //gitalk
@@ -66,10 +66,10 @@ export default defineConfigWithTheme<ThemeConfig>({
   ignoreDeadLinks: true,
   // 生成站点地图
   // sitemap: {
-  //   hostname: 'https://vitepress-theme-bluearchive.vercel.app',
+  //   hostname: 'https://chengziyk.github.io',
   // },
-  title: "YKChengZi",
-  description: "YKChengZi",
+  title: "YKChengZi的小站",
+  description: "YKChengzi的小站",
   themeConfig: {
     // navBar
     menuList: [
@@ -79,12 +79,12 @@ export default defineConfigWithTheme<ThemeConfig>({
 
     //banner区配置
     videoBanner: false,
-    name: "YKChengZi",
-    welcomeText: '欢迎来到ChengZi的小站！',
+    name: "YKChengZi的小站",
+    welcomeText: 'Hello, VitePress',
     motto: ['和你的日常，就是奇迹', '何気ない日常で、ほんの少しの奇跡を見つける物語。'],
     social: [
-      { icon: 'github', url: 'https://github.com/ChengZiYK' },
-      { icon: 'bilibili', url: 'https://www.bilibili.com/1892907969' },
+      { icon: 'github', url: 'https://github.com/' },
+      { icon: 'bilibili', url: 'https://www.bilibili.com/' },
       { icon: 'qq', url: 'https://im.qq.com/index/' },
       { icon: 'wechat', url: 'https://weixin.qq.com/' },
     ],
