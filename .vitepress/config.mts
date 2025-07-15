@@ -80,7 +80,7 @@ export default defineConfigWithTheme<ThemeConfig>({
     //banner区配置
     videoBanner: false,
     name: "YKChengZi",
-    welcomeText: '欢迎来到 ChengZi 的小站！',
+    welcomeText: '欢迎来到 ChengZi 的小站!',
     motto: ['走自己的路，让别人说去吧！', '要不断提高自身的能力，才能益己及他。', '逸一时，误一世。', '必须在奋斗中求生存，求发展。'],
     social: [
       { icon: 'github', url: 'https://github.com/ChengZiYK' },
