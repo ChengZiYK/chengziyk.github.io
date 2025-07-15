@@ -66,10 +66,10 @@ export default defineConfigWithTheme<ThemeConfig>({
   ignoreDeadLinks: true,
   // 生成站点地图
   // sitemap: {
-  //   hostname: 'https://chengziyk.github.io',
+  //   hostname: 'https://vitepress-theme-bluearchive.vercel.app',
   // },
-  title: "YKChengZi的小站",
-  description: "YKChengzi的小站",
+  title: "ChengZi 的小站",
+  description: "ChengZi的小站",
   themeConfig: {
     // navBar
     menuList: [
@@ -79,12 +79,12 @@ export default defineConfigWithTheme<ThemeConfig>({
 
     //banner区配置
     videoBanner: false,
-    name: "YKChengZi的小站",
-    welcomeText: '欢迎来到ChengZi的小站!',
-    motto: ['走自己的路，让别人说去吧！', '必须在奋斗中求生存，求发展。', '发明的秘诀在于不断的努力。', '奋斗是万物之父。', '人类要在竞争中求生存，更要奋斗。', '凡事欲其成功，必要付出代价：奋斗。', '拼一切代价，去奔你的前程。', '一个人必须经过一番刻苦奋斗，才会有所成就。', '奋斗以求改善生活，是可敬的行为。', '对真理和知识的追求并为之奋斗，是人的最高品质之一。', '奋斗之心人皆有之。', '奋斗这一件事是自有人类以来天天不息的。', '停止奋斗，生命也就停止了。', '伟大的精力只是为了伟大的目的而产生的。', '进步，意味着目标不断前移，阶段不断更新。', '你应将心思精心专注于你的事业上。', '我宁愿靠自己的力量打开我的前途。', '做了好事受到指责而仍坚持下去，这才是奋斗者的本色。', '如果你过分珍爱自己的羽毛，不使它受一点损伤，那么你将失去两只翅膀。', '要不断提高自身的能力，才能益己及他。']
+    name: "Sensei's 部落格",
+    welcomeText: '欢迎来到 ChengZi 的小站！',
+    motto: ['走自己的路，让别人说去吧！', '要不断提高自身的能力，才能益己及他。', '逸一时，误一世。', '必须在奋斗中求生存，求发展。'],
     social: [
-      { icon: 'github', url: 'https://github.com/' },
-      { icon: 'bilibili', url: 'https://www.bilibili.com/' },
+      { icon: 'github', url: 'https://github.com/ChengZiYK' },
+      { icon: 'bilibili', url: 'https://space.bilibili.com/1892907969' },
       { icon: 'qq', url: 'https://im.qq.com/index/' },
       { icon: 'wechat', url: 'https://weixin.qq.com/' },
     ],
