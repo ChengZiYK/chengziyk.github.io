@@ -102,7 +102,7 @@ export default defineConfigWithTheme<ThemeConfig>({
     //gitalk配置
     clientID: 'Ov23lir3PMJEnzdgIaBX',
     clientSecret: '71544cbde0f3dfc912e7812cb745fa7504ff91d4',
-    repo: 'ChengZiYK',
+    repo: 'chengziyk.github.io',
     owner: 'ChengZiYK',
     admin: ['ChengZiYK'],
   },
