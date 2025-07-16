@@ -6,7 +6,7 @@ pinned: true
 head:
   - - meta
     - name: description
-      content: chengziyk github io community
+      content: chengziyk-github-io community
   - - meta
     - name: keywords
       content: chengziyk github io community
