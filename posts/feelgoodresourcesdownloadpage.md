@@ -1,5 +1,5 @@
 ---
-title: 用于下载全损音质feel good资源的网页
+title: 全损音质版《Feel Good》资源下载
 date: 2025-08-14
 tags: [下载, 资源, 音乐]
 pinned: false
@@ -12,7 +12,7 @@ head:
       content: chengziyk github io feelgoodresourcesdownloadpage
 ---
 
-全损音质版《Feel Good》资源下载
+用于下载全损音质feel good资源的网页
 
 ---
 
@@ -42,12 +42,11 @@ head:
 
 ## ⬇️ 下载选项  
 ### 完整视频包  
-[点击下载全损版视频](https://chengziyk.github.io/resource/feelgood.mp4)  
-`文件大小: ~15MB | 格式: MP4`  
+[点击下载全损版视频](https://github.com/ChengZiYK/chengziyk.github.io/raw/refs/heads/main/resource/feelgood.mp4)   
 
 ### 分项下载  
-- [仅全损音频下载](https://chengziyk.github.io/resource/feelgood_audio.mp3)  
-- [仅视频下载](https://chengziyk.github.io/resource/feelgood_video.mp4)  
+- [仅全损音频下载](https://github.com/ChengZiYK/chengziyk.github.io/raw/refs/heads/main/resource/feelgood_audio.mp3)  
+- [仅视频下载](https://github.com/ChengZiYK/chengziyk.github.io/raw/refs/heads/main/resource/feelgood_video.mp4)  
 
 ## 🎮 播放提示  
 1. 建议使用支持低码率播放的播放器(bushi)  
@@ -60,6 +59,8 @@ head:
 ## ⚠️ 版权声明  
 本视频资源均来自于网络进行二创改编，侵删。更多资源请访问:  
 [chengziyk.github.io](https://chengziyk.github.io)
+
+> 如有问题请联系：belugajia@outlook.com
 
 <style>
 .video-container {
