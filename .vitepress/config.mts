@@ -81,7 +81,7 @@ export default defineConfigWithTheme<ThemeConfig>({
     videoBanner: false,
     name: "YKChengZi",
     welcomeText: '欢迎来到 ChengZi 的小站!',
-    motto: ['走自己的路，让别人说去吧！', '要不断提高自身的能力，才能益己及他。', '逸一时，误一世。', '必须在奋斗中求生存，求发展。'],
+    motto: ['欢迎来到我的小站~ChengZi在这里跪求前辈们三连+关注+充电，我会非常开心的口苗~~~', '逸一时，误一世。', '萨德·伊帕曾经说过：“依旧依旧,罢逸陵!”'],
     social: [
       { icon: 'github', url: 'https://github.com/ChengZiYK' },
       { icon: 'bilibili', url: 'https://space.bilibili.com/1892907969' },
