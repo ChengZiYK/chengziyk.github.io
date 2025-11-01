@@ -81,7 +81,7 @@ export default defineConfigWithTheme<ThemeConfig>({
     videoBanner: false,
     name: "YKChengZi",
     welcomeText: '欢迎来到 ChengZi 的小站!',
-    motto: ['欢迎来到我的小站~ChengZi在这里跪求前辈们三连+关注+充电，我会非常开心的口苗~~~', '逸一时，误一世。', '萨德·伊帕曾经说过：“依旧依旧,罢逸陵!”'],
+    motto: ['欢迎来到我的小站~ChengZi在这里跪求前辈们三连+关注+充电，我会非常开心的口牙~~~', '逸一时，误一世。', '萨德·伊帕曾经说过：“依旧依旧,罢逸陵!”'],
     social: [
       { icon: 'github', url: 'https://github.com/ChengZiYK' },
       { icon: 'bilibili', url: 'https://space.bilibili.com/1892907969' },
@@ -98,11 +98,7 @@ export default defineConfigWithTheme<ThemeConfig>({
       { name: 'VitePress', url: 'https://github.com/vuejs/vitepress' },
       { name: 'GitHub Pages', url: 'https://docs.github.com/zh/pages' },
       { name: '萌ICP备20254322号', url: 'https://icp.gov.moe/?keyword=20254322' },
-      { 
-        name: '坤ICP备案号20251145', 
-        url: 'https://icp.jkun.cf/id.php?keyword=20251145',
-        icon: 'https://shields.wudu.ltd/gen.php?part1=鸡享域站点互联&style=coral&part2=20251145'
-      }
+      { name: '坤ICP备20251145号', url: 'https://icp.jkun.cf/id.php?keyword=20251145' }
     ],
 
     //gitalk配置
