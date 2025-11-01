@@ -97,6 +97,12 @@ export default defineConfigWithTheme<ThemeConfig>({
     poweredList: [
       { name: 'VitePress', url: 'https://github.com/vuejs/vitepress' },
       { name: 'GitHub Pages', url: 'https://docs.github.com/zh/pages' },
+      { name: '萌ICP备20254322号', url: 'https://icp.gov.moe/?keyword=20254322' }
+      { 
+        name: '坤ICP备案号20251145', 
+        url: 'https://icp.jkun.cf/id.php?keyword=20251145',
+        icon: 'https://shields.wudu.ltd/gen.php?part1=鸡享域站点互联&style=coral&part2=20251145'
+      }
     ],
 
     //gitalk配置
