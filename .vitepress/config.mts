@@ -94,18 +94,12 @@ export default defineConfigWithTheme<ThemeConfig>({
 
     // footer配置
     footerName: 'YKChengZi',
-    poweredList: [
-      { name: 'VitePress', url: 'https://github.com/vuejs/vitepress' },
-      { name: 'GitHub Pages', url: 'https://docs.github.com/zh/pages' },
-      { 
-        name: '<a href="https://icp.gov.moe/?keyword=20254322" target="_blank">萌ICP备20254322号</a>', 
-        url: '#' 
-      },
-      { 
-        name: '<img src="https://shields.wudu.ltd/gen.php?part1=鸡享域站点互联&style=coral&part2=20251145" alt="ICP">', 
-        url: 'https://icp.jkun.cf/id.php?keyword=20251145' 
-      }
-    ],
+poweredList: [
+    { name: 'VitePress', url: 'https://github.com/vuejs/vitepress' },
+    { name: 'GitHub Pages', url: 'https://docs.github.com/zh/pages' },
+    { name: '萌ICP备20254322号', url: 'https://icp.gov.moe/?keyword=20254322' },
+    { name: '坤ICP备20251145号', url: 'https://icp.jkun.cf/id.php?keyword=20251145'}
+],
 
     //gitalk配置
     clientID: 'Ov23lir3PMJEnzdgIaBX',
