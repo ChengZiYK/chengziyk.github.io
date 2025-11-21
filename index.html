@@ -45,21 +45,49 @@
         </form>
     </div>
 
-    <div class="row tm-mb-90 tm-gallery">
-        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-            <figure class="effect-ming tm-video-item" style="border-radius: 10px; overflow: hidden;">
-                <img src="img/img-03.jpg" alt="图片" class="img-fluid" style="border-radius: 10px;">
-                <figcaption class="d-flex align-items-center justify-content-center">
+<div class="row tm-mb-90 tm-gallery">
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
+        <div class="rounded-container">
+            <figure class="effect-ming tm-video-item">
+                <img src="img/img-03.jpg" alt="图片" class="img-fluid rounded-image">
+                <figcaption class="d-flex align-items-center justify-content-center rounded-caption">
                     <h2>钟表</h2>
                     <a href="">查看更多</a>
                 </figcaption>                    
             </figure>
-            <div class="d-flex justify-content-between tm-text-gray">
-                <span class="tm-text-gray-light">2020年10月18日</span>
-            </div>
-        </div>       
-    </div>>
+        </div>
+        <div class="d-flex justify-content-between tm-text-gray">
+            <span class="tm-text-gray-light">2020年10月18日</span>
+        </div>
+    </div>       
+</div>
 
+<style>
+.rounded-container {
+    border-radius: 10px;
+    overflow: hidden;
+    display: block;
+}
+
+.rounded-image {
+    border-radius: 10px !important;
+    transition: all 0.3s ease !important;
+}
+
+.rounded-caption {
+    border-radius: 10px !important;
+}
+
+/* 悬停效果 */
+.effect-ming:hover img {
+    border-radius: 10px !important;
+    transform: scale(1.1);
+}
+
+.effect-ming figcaption {
+    border-radius: 10px !important;
+}
+</style>
 <footer class="tm-bg-gray pt-5 pb-3 tm-text-gray tm-footer">
     <div class="container-fluid tm-container-small">
         <div class="row">
