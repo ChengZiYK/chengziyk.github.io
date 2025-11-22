@@ -36,6 +36,8 @@
 - Font Awesome 图标遵循其开源许可
 - 版权所有 © 2025 Bili_YKChengZi Company
 
-## ICP 备案
+## ICP* 备案
 
 坤ICP备20256789号
+
+*爱(I)吃(C)苹果派(P)
