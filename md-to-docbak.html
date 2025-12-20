@@ -2,389 +2,323 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown转换器 - 导出为Word/Excel</title>
-    <!-- 外部资源 -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Marked.js - Markdown解析 -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- DOMPurify - HTML净化 -->
     <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+    <!-- SheetJS - Excel处理 -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <!-- html-docx-js - HTML转Word -->
     <script src="https://cdn.jsdelivr.net/npm/html-docx-js/dist/html-docx.min.js"></script>
+    <!-- FileSaver.js - 文件保存 -->
     <script src="https://cdn.jsdelivr.net/npm/file-saver/dist/FileSaver.min.js"></script>
     
     <!-- Tailwind配置 -->
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        primary: '#4096ff',
-                        secondary: '#8c8c8c',
-                        light: '#f5f7fa',
-                        dark: '#1d2129',
-                        card: '#ffffff',
-                        border: '#e5e6eb',
-                        hover: '#e8f3ff',
-                        darkBg: '#1d2129',
-                        darkCard: '#2c333f',
-                        darkBorder: '#3e4451',
-                        darkText: '#e5e6eb',
-                        darkSecondary: '#909399'
+                        primary: '#3b82f6',
+                        secondary: '#64748b',
+                        success: '#10b981',
+                        danger: '#ef4444',
+                        warning: '#f59e0b',
+                        info: '#06b6d4',
+                        light: '#f3f4f6',
+                        dark: '#1f2937'
                     },
                     fontFamily: {
-                        sans: ['Inter', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
                     },
                     boxShadow: {
-                        'card': '0 2px 12px 0 rgba(0, 0, 0, 0.08)',
-                        'hover': '0 4px 16px 0 rgba(0, 0, 0, 0.12)',
-                    },
-                    borderRadius: {
-                        'card': '8px',
+                        'inner-lg': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)'
                     }
                 }
             }
         }
     </script>
     
-    <!-- 自定义工具类 -->
     <style type="text/tailwindcss">
         @layer utilities {
             .content-auto {
                 content-visibility: auto;
             }
+            .transition-height {
+                transition: height 0.3s ease;
+            }
             .scrollbar-thin {
                 scrollbar-width: thin;
             }
             .scrollbar-thin::-webkit-scrollbar {
-                width: 4px;
-                height: 4px;
+                width: 6px;
+                height: 6px;
             }
             .scrollbar-thin::-webkit-scrollbar-track {
-                background: #f5f7fa;
-                border-radius: 2px;
+                background: #f1f1f1;
             }
             .scrollbar-thin::-webkit-scrollbar-thumb {
-                background: #c0c4cc;
-                border-radius: 2px;
+                background: #888;
+                border-radius: 3px;
             }
             .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-                background: #909399;
-            }
-            .transition-all-ease {
-                transition: all 0.2s ease-in-out;
-            }
-            .fixed-button-content {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                gap: 8px;
-                line-height: 1;
-            }
-            .card-header {
-                height: 56px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 0 12px;
+                background: #555;
             }
         }
     </style>
     
     <style>
-        /* 全局样式重置 */
-        body {
-            background-color: #f5f7fa;
-            color: #1d2129;
-            font-size: 14px;
-            line-height: 1.5;
+        /* 自定义样式 */
+        .editor-container {
+            height: calc(100vh - 12rem);
         }
         
-        /* 深色模式样式 */
-        body.dark {
-            background-color: #1d2129;
-            color: #e5e6eb;
+        .preview-container {
+            height: calc(100vh - 12rem);
         }
         
-        /* 编辑器和预览器容器 - 固定高度确保一致 */
-        .editor-container, .preview-container {
-            height: calc(100vh - 14rem);
-            min-height: 300px;
-            display: flex;
-            flex-direction: column;
+        .markdown-preview h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
         }
         
-        /* Markdown预览样式 */
-        .markdown-preview {
-            font-size: 14px;
-            line-height: 1.6;
-            flex: 1;
-            min-height: 0;
+        .markdown-preview h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
         }
         
-        /* 深色模式下的Markdown预览样式 */
-        body.dark .markdown-preview h1,
-        body.dark .markdown-preview h2,
-        body.dark .markdown-preview h3,
-        body.dark .markdown-preview table th {
-            color: #e5e6eb;
-            border-color: #3e4451;
+        .markdown-preview h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
         }
         
-        body.dark .markdown-preview p,
-        body.dark .markdown-preview ul,
-        body.dark .markdown-preview ol,
-        body.dark .markdown-preview blockquote,
-        body.dark .markdown-preview table td {
-            color: #909399;
+        .markdown-preview p {
+            margin-bottom: 1rem;
         }
         
-        body.dark .markdown-preview pre,
-        body.dark .markdown-preview code {
-            background-color: #2c333f;
-            color: #f0f0f0;
+        .markdown-preview ul, 
+        .markdown-preview ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
         }
         
-        body.dark .markdown-preview blockquote {
-            background-color: #2c333f;
+        .markdown-preview ul li {
+            list-style-type: disc;
+            margin-bottom: 0.25rem;
         }
         
-        body.dark .markdown-preview table {
-            border-color: #3e4451;
+        .markdown-preview ol li {
+            list-style-type: decimal;
+            margin-bottom: 0.25rem;
         }
         
-        body.dark .markdown-preview table th {
-            background-color: #2c333f;
+        .markdown-preview blockquote {
+            border-left: 4px solid #e5e7eb;
+            padding-left: 1rem;
+            color: #6b7280;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+        
+        .markdown-preview pre {
+            background-color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .markdown-preview code {
+            font-family: 'Fira Code', monospace;
+            background-color: #f3f4f6;
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+        }
+        
+        .markdown-preview pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+        }
+        
+        .markdown-preview table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+        
+        .markdown-preview table th,
+        .markdown-preview table td {
+            border: 1px solid #e5e7eb;
+            padding: 0.5rem;
+            text-align: left;
+        }
+        
+        .markdown-preview table th {
+            background-color: #f9fafb;
+            font-weight: 600;
+        }
+        
+        .markdown-preview img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .markdown-preview hr {
+            border: 0;
+            border-top: 1px solid #e5e7eb;
+            margin: 1.5rem 0;
         }
         
         /* 动画效果 */
         .fade-in {
-            animation: fadeIn 0.2s ease-in-out;
+            animation: fadeIn 0.3s ease-in-out;
         }
+        
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
-        /* 按钮hover效果 */
-        .btn-hover {
-            transition: all 0.2s ease;
-        }
-        .btn-hover:hover {
-            transform: translateY(-1px);
+        .slide-in {
+            animation: slideIn 0.3s ease-in-out;
         }
         
-        /* 深色模式下的卡片和边框样式 */
-        body.dark .bg-card {
-            background-color: #2c333f;
-        }
-        
-        body.dark .border-border {
-            border-color: #3e4451;
-        }
-        
-        body.dark .bg-light\/80 {
-            background-color: rgba(44, 51, 63, 0.8);
-        }
-        
-        body.dark .bg-light\/50 {
-            background-color: rgba(44, 51, 63, 0.5);
-        }
-        
-        body.dark .bg-hover {
-            background-color: rgba(64, 150, 255, 0.1);
-        }
-        
-        body.dark .text-dark {
-            color: #e5e6eb;
-        }
-        
-        body.dark .text-secondary {
-            color: #909399;
-        }
-        
-        body.dark .scrollbar-thin::-webkit-scrollbar-track {
-            background: #2c333f;
-        }
-        
-        body.dark .scrollbar-thin::-webkit-scrollbar-thumb {
-            background: #5e6472;
-        }
-        
-        body.dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-            background: #7d8494;
-        }
-        
-        /* 修复按钮文字位移 - 固定按钮内容样式 */
-        .export-button .button-content {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            line-height: 1;
-            padding: 0;
-            margin: 0;
-        }
-        
-        /* 确保卡片头部高度一致 */
-        .card-header {
-            height: 56px !important;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 12px;
-            box-sizing: border-box;
-        }
-        
-        /* 确保两个卡片始终等高 */
-        .sync-height-card {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-        
-        .sync-height-card > div:first-child {
-            flex-shrink: 0;
-        }
-        
-        .sync-height-card > div:last-child {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        /* 隐藏的按钮占位符，确保头部高度一致 */
-        .button-placeholder {
-            width: 80px;
-            visibility: hidden;
-        }
-        
-        /* 确保文本区域占满空间 */
-        #markdown-input {
-            flex: 1;
-            min-height: 0;
+        @keyframes slideIn {
+            from { transform: translateY(10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
     </style>
 </head>
-<body class="bg-light font-sans">
+<body class="bg-gray-50 text-gray-900 font-sans">
     <!-- 顶部导航栏 -->
-    <header class="bg-card border-b border-border sticky top-0 z-10">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center space-x-2">
-                <i class="fa fa-file-text-o text-primary text-xl"></i>
-                <h1 class="text-lg font-semibold text-dark">Markdown 转换器</h1>
+                <i class="fa fa-file-text-o text-primary text-2xl"></i>
+                <h1 class="text-xl font-bold text-primary">Markdown转文档</h1>
             </div>
-            <div class="flex items-center space-x-3">
-                <!-- 修复按钮文字位移：使用固定的内容容器 -->
-                <button id="export-btn" class="btn-hover px-4 py-2 bg-primary text-white rounded-card shadow-sm hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
-                    <span class="button-content">
-                        <i class="fa fa-download text-sm"></i>
-                        <span id="export-text">导出为Word</span>
-                    </span>
+            <div class="flex items-center space-x-4">
+                <button id="export-btn" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-all flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <i class="fa fa-download"></i>
+                    <span id="export-text">导出为Word</span>
                 </button>
-                <button id="theme-toggle" class="btn-hover p-2 rounded-full hover:bg-hover text-secondary transition-all-ease">
-                    <i class="fa fa-moon-o"></i>
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 transition-all">
+                    <i class="fa fa-moon-o text-gray-600"></i>
                 </button>
             </div>
         </div>
     </header>
     
     <!-- 主要内容区 -->
-    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <!-- 格式识别提示 -->
-        <div id="format-detection" class="mb-5 p-3 bg-hover border border-primary/20 rounded-card flex items-center space-x-2 fade-in hidden">
+    <main class="container mx-auto px-4 py-6">
+        <!-- 格式识别结果提示 -->
+        <div id="format-detection" class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-md flex items-center space-x-2 slide-in hidden">
             <i class="fa fa-info-circle text-primary"></i>
-            <p class="text-sm text-dark">
-                <span class="font-medium">识别结果：</span>
-                <span id="detected-format">Word</span> 格式
+            <p class="text-sm text-gray-700">
+                <span class="font-medium">已识别格式：</span>
+                <span id="detected-format">Word</span>
             </p>
         </div>
         
-        <!-- 编辑器和预览区 - 使用同步高度卡片 -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-8">
-            <!-- Markdown输入区 - 确保头部高度一致 -->
-            <div class="sync-height-card bg-card rounded-card shadow-card overflow-hidden transition-all-ease hover:shadow-hover">
-                <div class="card-header p-3 bg-light/80 border-b border-border">
-                    <h2 class="font-medium text-dark flex items-center space-x-2">
-                        <i class="fa fa-edit text-secondary"></i>
-                        <span>Markdown 编辑</span>
+        <!-- 编辑器和预览区 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Markdown输入区 -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                <div class="p-3 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
+                    <h2 class="font-medium text-gray-700 flex items-center space-x-2">
+                        <i class="fa fa-edit text-gray-500"></i>
+                        <span>Markdown编辑器</span>
                     </h2>
                     <div class="flex items-center space-x-2">
-                        <button id="clear-btn" class="btn-hover text-sm text-secondary hover:text-primary transition-all-ease px-2 py-1 rounded">
+                        <button id="clear-btn" class="text-sm text-gray-500 hover:text-gray-700 transition-all">
                             <i class="fa fa-trash-o"></i>
                             <span class="ml-1 hidden sm:inline">清空</span>
                         </button>
-                        <button id="sample-btn" class="btn-hover text-sm text-secondary hover:text-primary transition-all-ease px-2 py-1 rounded">
+                        <button id="sample-btn" class="text-sm text-gray-500 hover:text-gray-700 transition-all">
                             <i class="fa fa-file-text-o"></i>
                             <span class="ml-1 hidden sm:inline">示例</span>
                         </button>
-                        <!-- 添加占位符确保头部高度与预览器一致 -->
-                        <div class="button-placeholder"></div>
                     </div>
                 </div>
                 <div class="editor-container">
-                    <textarea id="markdown-input" class="w-full h-full p-4 font-mono text-sm resize-none outline-none scrollbar-thin bg-card" placeholder="请输入Markdown内容..."></textarea>
+                    <textarea id="markdown-input" class="w-full h-full p-4 font-mono text-sm resize-none outline-none scrollbar-thin" placeholder="请输入Markdown内容..."></textarea>
                 </div>
             </div>
             
-            <!-- 预览区 - 确保头部高度一致 -->
-            <div class="sync-height-card bg-card rounded-card shadow-card overflow-hidden transition-all-ease hover:shadow-hover">
-                <div class="card-header p-3 bg-light/80 border-b border-border">
-                    <h2 class="font-medium text-dark flex items-center space-x-2">
-                        <i class="fa fa-eye text-secondary"></i>
+            <!-- 预览区 -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                <div class="p-3 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
+                    <h2 class="font-medium text-gray-700 flex items-center space-x-2">
+                        <i class="fa fa-eye text-gray-500"></i>
                         <span>实时预览</span>
                     </h2>
                     <div class="flex items-center space-x-2">
-                        <button id="preview-mode-toggle" class="btn-hover text-sm text-secondary hover:text-primary transition-all-ease px-2 py-1 rounded hidden">
+                        <button id="preview-mode-toggle" class="text-sm text-gray-500 hover:text-gray-700 transition-all">
                             <i class="fa fa-table"></i>
                             <span class="ml-1 hidden sm:inline">表格视图</span>
                         </button>
                     </div>
                 </div>
                 <div class="preview-container p-4 overflow-auto scrollbar-thin">
-                    <div id="markdown-preview" class="markdown-preview"><div class="text-center text-secondary mt-10"><i class="fa fa-file-text-o text-3xl mb-2"></i><p>请在左侧输入Markdown内容</p></div></div>
+                    <div id="markdown-preview" class="markdown-preview"></div>
                     <div id="table-preview" class="hidden"></div>
                 </div>
             </div>
         </div>
         
         <!-- 功能说明 -->
-        <div class="bg-card rounded-card shadow-card p-5 transition-all-ease hover:shadow-hover">
-            <h2 class="text-lg font-semibold text-dark mb-4 pb-2 border-b border-border">功能说明</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="p-3 bg-light/50 rounded-card">
-                    <h3 class="text-base font-medium text-dark mb-2 flex items-center">
+        <div class="mt-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">功能说明</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-lg font-medium text-gray-700 mb-2 flex items-center">
                         <i class="fa fa-magic text-primary mr-2"></i>
                         智能格式识别
                     </h3>
-                    <p class="text-sm text-secondary">
-                        自动识别内容类型，表格数据推荐导出Excel，文档内容默认导出Word，无需手动选择。
+                    <p class="text-gray-600">
+                        系统会根据您输入的Markdown内容自动识别最适合的导出格式。如果内容包含表格数据，将推荐导出为Excel；否则默认导出为Word文档。
                     </p>
                 </div>
-                <div class="p-3 bg-light/50 rounded-card">
-                    <h3 class="text-base font-medium text-dark mb-2 flex items-center">
-                        <i class="fa fa-file-excel-o text-primary mr-2"></i>
-                        Excel 导出
+                <div>
+                    <h3 class="text-lg font-medium text-gray-700 mb-2 flex items-center">
+                        <i class="fa fa-file-excel-o text-success mr-2"></i>
+                        Excel导出
                     </h3>
-                    <p class="text-sm text-secondary">
-                        完美保留表格结构和数据，生成标准Excel文件，支持多表格分sheet导出。
+                    <p class="text-gray-600">
+                        当检测到表格内容时，系统会将Markdown表格转换为Excel工作表，保留表格结构和数据格式，方便进行数据分析和处理。
                     </p>
                 </div>
-                <div class="p-3 bg-light/50 rounded-card">
-                    <h3 class="text-base font-medium text-dark mb-2 flex items-center">
-                        <i class="fa fa-file-word-o text-primary mr-2"></i>
-                        Word 导出
+                <div>
+                    <h3 class="text-lg font-medium text-gray-700 mb-2 flex items-center">
+                        <i class="fa fa-file-word-o text-info mr-2"></i>
+                        Word导出
                     </h3>
-                    <p class="text-sm text-secondary">
-                        保留Markdown所有格式，生成排版精美的Word文档，支持标题、列表、代码块等样式。
+                    <p class="text-gray-600">
+                        对于文档类内容，系统会将Markdown转换为格式精美的Word文档，保留标题、列表、代码块等格式，生成专业的文档。
                     </p>
                 </div>
-                <div class="p-3 bg-light/50 rounded-card">
-                    <h3 class="text-base font-medium text-dark mb-2 flex items-center">
-                        <i class="fa fa-eye text-primary mr-2"></i>
+                <div>
+                    <h3 class="text-lg font-medium text-gray-700 mb-2 flex items-center">
+                        <i class="fa fa-eye text-warning mr-2"></i>
                         实时预览
                     </h3>
-                    <p class="text-sm text-secondary">
-                        输入内容实时渲染预览，直观查看最终效果，调整格式更高效。
+                    <p class="text-gray-600">
+                        在输入Markdown内容的同时，可以实时预览转换后的效果，帮助您调整格式，确保导出结果符合预期。
                     </p>
                 </div>
             </div>
@@ -392,13 +326,15 @@
     </main>
     
     <!-- 底部信息 -->
-    <footer class="bg-card border-t border-border mt-8 py-4">
-        <div class="container mx-auto px-4 text-center text-sm text-secondary">
-            <p>Markdown 转换器 © 2025 YKChengZi | 简洁高效的文档格式转换工具</p>
+    <footer class="bg-white border-t border-gray-200 mt-8">
+        <div class="container mx-auto px-4 py-6">
+            <div class="text-center text-gray-500 text-sm">
+                <p>© 2025 YKChengZi Markdown转换器 - 高效便捷的文档格式转换工具</p>
+            </div>
         </div>
     </footer>
     
-    <!-- JavaScript 逻辑 -->
+    <!-- JavaScript -->
     <script>
         // DOM元素
         const markdownInput = document.getElementById('markdown-input');
@@ -514,50 +450,12 @@ function hello() {
             
             // 初始渲染
             renderMarkdown();
-            
-            // 检查本地存储的主题偏好
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.body.classList.add('dark');
-                updateThemeIcon();
-            }
-            
-            // 确保初始布局一致
-            ensureHeightsMatch();
-        }
-        
-        // 确保两个卡片高度一致
-        function ensureHeightsMatch() {
-            const editorCard = document.querySelector('.sync-height-card:first-child');
-            const previewCard = document.querySelector('.sync-height-card:last-child');
-            
-            if (editorCard && previewCard) {
-                // 强制重排
-                editorCard.offsetHeight;
-                previewCard.offsetHeight;
-                
-                // 确保头部高度完全一致
-                const editorHeader = editorCard.querySelector('.card-header');
-                const previewHeader = previewCard.querySelector('.card-header');
-                
-                if (editorHeader && previewHeader) {
-                    const maxHeaderHeight = Math.max(editorHeader.offsetHeight, previewHeader.offsetHeight);
-                    editorHeader.style.height = maxHeaderHeight + 'px';
-                    previewHeader.style.height = maxHeaderHeight + 'px';
-                }
-                
-                // 确保卡片高度一致
-                const maxCardHeight = Math.max(editorCard.offsetHeight, previewCard.offsetHeight);
-                editorCard.style.height = maxCardHeight + 'px';
-                previewCard.style.height = maxCardHeight + 'px';
-            }
         }
         
         // 处理Markdown输入
         function handleMarkdownInput() {
             renderMarkdown();
             detectFormat();
-            ensureHeightsMatch();
         }
         
         // 渲染Markdown
@@ -565,7 +463,7 @@ function hello() {
             const markdown = markdownInput.value.trim();
             
             if (markdown === '') {
-                markdownPreview.innerHTML = '<div class="text-center text-secondary mt-10"><i class="fa fa-file-text-o text-3xl mb-2"></i><p>请在左侧输入Markdown内容</p></div>';
+                markdownPreview.innerHTML = '<div class="text-center text-gray-400 mt-12"><i class="fa fa-file-text-o text-4xl mb-3"></i><p>请在左侧输入Markdown内容</p></div>';
                 return;
             }
             
@@ -588,17 +486,17 @@ function hello() {
             const tables = extractTables(markdown);
             
             if (tables.length === 0) {
-                tablePreview.innerHTML = '<div class="text-center text-secondary mt-10"><i class="fa fa-table text-3xl mb-2"></i><p>未检测到表格内容</p></div>';
+                tablePreview.innerHTML = '<div class="text-center text-gray-400 mt-12"><i class="fa fa-table text-4xl mb-3"></i><p>未检测到表格内容</p></div>';
                 return;
             }
             
             // 创建表格预览
-            let html = '<div class="space-y-4">';
+            let html = '<div class="space-y-6">';
             
             tables.forEach((table, index) => {
                 html += `
-                    <div class="bg-light/50 p-3 rounded-card">
-                        <h3 class="text-base font-medium text-dark mb-2">表格 ${index + 1}</h3>
+                    <div class="bg-white p-4 rounded-lg border border-gray-200">
+                        <h3 class="text-lg font-medium text-gray-700 mb-3">表格 ${index + 1}</h3>
                         <div class="overflow-x-auto">
                             ${table}
                         </div>
@@ -659,11 +557,6 @@ function hello() {
             
             // 显示格式检测结果
             formatDetection.classList.remove('hidden');
-            
-            // 表格视图按钮显示/隐藏后确保高度一致
-            setTimeout(() => {
-                ensureHeightsMatch();
-            }, 10);
         }
         
         // 处理导出
@@ -757,18 +650,18 @@ function hello() {
                     <head>
                         <meta charset="UTF-8">
                         <style>
-                            body { font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.6; font-size: 14px; color: #1d2129; }
-                            h1 { font-size: 20px; font-weight: 600; margin: 16px 0 12px 0; border-bottom: 1px solid #e5e6eb; padding-bottom: 8px; }
-                            h2 { font-size: 18px; font-weight: 600; margin: 14px 0 10px 0; }
-                            h3 { font-size: 16px; font-weight: 600; margin: 12px 0 8px 0; }
-                            p { margin: 8px 0; color: #4e5969; }
-                            ul, ol { margin: 8px 0 8px 20px; color: #4e5969; }
-                            code { font-family: Consolas, monospace; background-color: #f5f7fa; padding: 2px 4px; border-radius: 4px; color: #e53935; }
-                            pre { background-color: #f5f7fa; padding: 12px; border-radius: 6px; margin: 10px 0; overflow-x: auto; }
-                            table { border-collapse: collapse; width: 100%; margin: 12px 0; border: 1px solid #e5e6eb; border-radius: 6px; overflow: hidden; }
-                            th { background-color: #f5f7fa; padding: 8px 12px; text-align: left; font-weight: 600; border-bottom: 1px solid #e5e6eb; }
-                            td { padding: 8px 12px; border-bottom: 1px solid #e5e6eb; color: #4e5969; }
-                            blockquote { border-left: 3px solid #4096ff; padding: 8px 12px; margin: 10px 0; background-color: #f0f7ff; color: #4e5969; }
+                            body { font-family: Arial, sans-serif; line-height: 1.6; }
+                            h1 { font-size: 24pt; font-weight: bold; margin-bottom: 12pt; }
+                            h2 { font-size: 18pt; font-weight: bold; margin-top: 18pt; margin-bottom: 10pt; }
+                            h3 { font-size: 14pt; font-weight: bold; margin-top: 14pt; margin-bottom: 8pt; }
+                            p { margin-bottom: 10pt; }
+                            ul, ol { margin-bottom: 10pt; padding-left: 20pt; }
+                            code { font-family: Consolas, monospace; background-color: #f5f5f5; padding: 2pt 4pt; border-radius: 3pt; }
+                            pre { background-color: #f5f5f5; padding: 10pt; border-radius: 5pt; overflow-x: auto; }
+                            table { border-collapse: collapse; width: 100%; margin-bottom: 10pt; }
+                            th, td { border: 1px solid #ddd; padding: 6pt; text-align: left; }
+                            th { background-color: #f2f2f2; font-weight: bold; }
+                            blockquote { border-left: 4px solid #ddd; padding-left: 10pt; color: #666; font-style: italic; }
                         </style>
                     </head>
                     <body>
@@ -800,7 +693,6 @@ function hello() {
                 renderMarkdown();
                 formatDetection.classList.add('hidden');
                 exportBtn.disabled = true;
-                ensureHeightsMatch();
             }
         }
         
@@ -814,33 +706,20 @@ function hello() {
         
         // 处理主题切换
         function handleThemeToggle() {
-            const body = document.body;
-            const isDark = body.classList.toggle('dark');
-            
-            // 保存主题偏好到本地存储
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            
-            // 更新图标
-            updateThemeIcon();
-            
-            // 显示通知
-            showNotification(isDark ? '深色模式已启用' : '浅色模式已启用', 'info');
-            
-            // 主题切换后确保布局一致
-            setTimeout(() => {
-                ensureHeightsMatch();
-            }, 50);
-        }
-        
-        // 更新主题图标
-        function updateThemeIcon() {
             const icon = themeToggle.querySelector('i');
-            if (document.body.classList.contains('dark')) {
+            
+            if (icon.classList.contains('fa-moon-o')) {
+                // 切换到深色模式
+                document.body.classList.add('dark');
                 icon.classList.remove('fa-moon-o');
                 icon.classList.add('fa-sun-o');
+                showNotification('深色模式已启用', 'info');
             } else {
+                // 切换到浅色模式
+                document.body.classList.remove('dark');
                 icon.classList.remove('fa-sun-o');
                 icon.classList.add('fa-moon-o');
+                showNotification('浅色模式已启用', 'info');
             }
         }
         
@@ -863,18 +742,13 @@ function hello() {
                 icon.classList.add('fa-file-text-o');
                 previewModeToggle.querySelector('span').textContent = '文档视图';
             }
-            
-            // 切换后确保高度一致
-            setTimeout(() => {
-                ensureHeightsMatch();
-            }, 10);
         }
         
         // 显示通知
         function showNotification(message, type = 'info') {
             // 创建通知元素
             const notification = document.createElement('div');
-            notification.className = `fixed top-16 right-4 px-4 py-2 rounded-card shadow-card z-50 flex items-center space-x-2 fade-in ${getNotificationClass(type)}`;
+            notification.className = `fixed top-4 right-4 px-4 py-2 rounded-md shadow-lg z-50 flex items-center space-x-2 fade-in ${getNotificationClass(type)}`;
             
             // 设置图标
             const icon = document.createElement('i');
@@ -894,11 +768,11 @@ function hello() {
             // 3秒后移除
             setTimeout(() => {
                 notification.classList.add('opacity-0');
-                notification.style.transition = 'opacity 0.2s ease';
+                notification.style.transition = 'opacity 0.3s ease';
                 
                 setTimeout(() => {
                     document.body.removeChild(notification);
-                }, 200);
+                }, 300);
             }, 3000);
         }
         
@@ -906,14 +780,14 @@ function hello() {
         function getNotificationClass(type) {
             switch (type) {
                 case 'success':
-                    return 'bg-green-50 text-green-600 border border-green-200';
+                    return 'bg-green-500 text-white';
                 case 'error':
-                    return 'bg-red-50 text-red-600 border border-red-200';
+                    return 'bg-red-500 text-white';
                 case 'warning':
-                    return 'bg-yellow-50 text-yellow-600 border border-yellow-200';
+                    return 'bg-yellow-500 text-white';
                 case 'info':
                 default:
-                    return 'bg-blue-50 text-blue-600 border border-blue-200';
+                    return 'bg-blue-500 text-white';
             }
         }
         
@@ -921,21 +795,22 @@ function hello() {
         function getNotificationIcon(type) {
             switch (type) {
                 case 'success':
-                    return 'fa fa-check-circle text-green-600';
+                    return 'fa fa-check-circle';
                 case 'error':
-                    return 'fa fa-exclamation-circle text-red-600';
+                    return 'fa fa-exclamation-circle';
                 case 'warning':
-                    return 'fa fa-exclamation-triangle text-yellow-600';
+                    return 'fa fa-exclamation-triangle';
                 case 'info':
                 default:
-                    return 'fa fa-info-circle text-blue-600';
+                    return 'fa fa-info-circle';
             }
         }
         
-        // 监听窗口大小变化
-        window.addEventListener('resize', () => {
-            setTimeout(ensureHeightsMatch, 100);
-        });
+        // 加载示例表格数据
+        function loadSampleTable() {
+            markdownInput.value = sampleTableMarkdown;
+            handleMarkdownInput();
+        }
         
         // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', init);
