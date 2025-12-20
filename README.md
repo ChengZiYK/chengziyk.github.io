@@ -10,6 +10,7 @@
 
 ## 目录结构
 
+```
 chengziyk.github.io/
 ├── .github/
 │   └── workflows/
@@ -42,6 +43,7 @@ chengziyk.github.io/
 ├── test_pages.html          # 测试页面
 ├── win10kunbang.html        # Windows 10捆绑软件版页面
 └── README.md                # 项目说明文档
+```
 
 ## 部署说明
 
