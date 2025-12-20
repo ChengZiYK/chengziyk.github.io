@@ -252,16 +252,27 @@
             flex-direction: column;
         }
         
-        /* 隐藏的按钮占位符，确保头部高度一致 */
-        .button-placeholder {
-            width: 80px;
-            visibility: hidden;
-        }
-        
         /* 确保文本区域占满空间 */
         #markdown-input {
             flex: 1;
             min-height: 0;
+        }
+        
+        /* 修复按钮位置 - 确保按钮在右上角 */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        
+        /* 隐藏的按钮占位符容器 */
+        .header-placeholder {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 80px;
+            visibility: hidden;
         }
     </style>
 </head>
@@ -301,14 +312,14 @@
         
         <!-- 编辑器和预览区 - 使用同步高度卡片 -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-8">
-            <!-- Markdown输入区 - 确保头部高度一致 -->
+            <!-- Markdown输入区 - 修复按钮位置：确保清空和示例按钮在右上角 -->
             <div class="sync-height-card bg-card rounded-card shadow-card overflow-hidden transition-all-ease hover:shadow-hover">
                 <div class="card-header p-3 bg-light/80 border-b border-border">
                     <h2 class="font-medium text-dark flex items-center space-x-2">
                         <i class="fa fa-edit text-secondary"></i>
                         <span>Markdown 编辑</span>
                     </h2>
-                    <div class="flex items-center space-x-2">
+                    <div class="header-actions">
                         <button id="clear-btn" class="btn-hover text-sm text-secondary hover:text-primary transition-all-ease px-2 py-1 rounded">
                             <i class="fa fa-trash-o"></i>
                             <span class="ml-1 hidden sm:inline">清空</span>
@@ -317,8 +328,6 @@
                             <i class="fa fa-file-text-o"></i>
                             <span class="ml-1 hidden sm:inline">示例</span>
                         </button>
-                        <!-- 添加占位符确保头部高度与预览器一致 -->
-                        <div class="button-placeholder"></div>
                     </div>
                 </div>
                 <div class="editor-container">
@@ -326,18 +335,29 @@
                 </div>
             </div>
             
-            <!-- 预览区 - 确保头部高度一致 -->
+            <!-- 预览区 - 添加占位符确保头部高度一致 -->
             <div class="sync-height-card bg-card rounded-card shadow-card overflow-hidden transition-all-ease hover:shadow-hover">
                 <div class="card-header p-3 bg-light/80 border-b border-border">
                     <h2 class="font-medium text-dark flex items-center space-x-2">
                         <i class="fa fa-eye text-secondary"></i>
                         <span>实时预览</span>
                     </h2>
-                    <div class="flex items-center space-x-2">
+                    <div class="header-actions">
                         <button id="preview-mode-toggle" class="btn-hover text-sm text-secondary hover:text-primary transition-all-ease px-2 py-1 rounded hidden">
                             <i class="fa fa-table"></i>
                             <span class="ml-1 hidden sm:inline">表格视图</span>
                         </button>
+                        <!-- 添加占位符确保头部高度与编辑器一致 -->
+                        <div class="header-placeholder">
+                            <div class="btn-hover text-sm text-secondary hover:text-primary transition-all-ease px-2 py-1 rounded">
+                                <i class="fa fa-trash-o"></i>
+                                <span class="ml-1 hidden sm:inline">占位</span>
+                            </div>
+                            <div class="btn-hover text-sm text-secondary hover:text-primary transition-all-ease px-2 py-1 rounded">
+                                <i class="fa fa-file-text-o"></i>
+                                <span class="ml-1 hidden sm:inline">占位</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="preview-container p-4 overflow-auto scrollbar-thin">
@@ -940,5 +960,6 @@ function hello() {
         // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', init);
     </script>
+
 
 </body></html>
