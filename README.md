@@ -1,6 +1,6 @@
 # Bili_YKChengZi 项目站点
 
-本仓库是 Bili_YKChengZi 的官方网站源码，对应线上站点为 [ykchengzi.jkun.cf](http://ykchengzi.jkun.cf)。网站主要展示 Bili_YKChengZi 相关产品及信息，目前处于产品仍在制作中，敬请期待。
+本仓库是 Bili_YKChengZi 的官方网站源码，对应线上站点为 [chengziyk.github.io](https://chengziyk.github.io)。网站主要展示 Bili_YKChengZi 相关产品及信息，目前处于产品仍在制作中，敬请期待。
 
 ## 网站功能
 
