@@ -12,8 +12,7 @@
     <style>
         .tm-hero {
             min-height: 400px;
-            background-size: cover;
-            background-position: center;
+            background: transparent;
         }
         
         /* 简洁版的产品卡片布局 */
@@ -48,7 +47,7 @@
             position: relative;
             display: block;
             overflow: hidden;
-            border-radius: 4px;
+            border-radius: 8px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .tm-video-item:hover {
@@ -129,6 +128,31 @@
             font-weight: 700;
             letter-spacing: 0.5px;
         }
+        
+        /* 网页主体背景 */
+        body {
+            background-image: url('img/wallpaper.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        /* 内容区域背景 */
+        .tm-container-content {
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        
+        /* 页脚分割线 */
+        .footer-divider {
+            height: 2px;
+            background-color: rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -169,15 +193,16 @@
         </div>
     </nav>
 
+    
+
     <!-- 英雄区域 -->
-    <div class="tm-hero d-flex justify-content-center align-items-center" 
-         data-parallax="scroll" data-image-src="img/wallpaper.png">
+    <div class="tm-hero d-flex justify-content-center align-items-center">
         <div class="text-center mb-5">
             <h1 class="text-white mb-4 display-4">Bili_YKChengZi</h1>
-            <form class="d-flex tm-search-form mx-auto" style="max-width: 600px;">
+            <form class="d-flex tm-search-form mx-auto" style="max-width: 600px; border-radius: 8px; overflow: hidden;">
                 <input class="form-control tm-search-input flex-grow-1" type="search" 
-                       placeholder="搜索产品..." aria-label="搜索">
-                <button class="btn btn-outline-light tm-search-btn" type="submit">
+                       placeholder="搜索产品..." aria-label="搜索" style="border-radius: 0;">
+                <button class="btn btn-outline-light tm-search-btn" type="submit" style="border-radius: 0;">
                     <i class="fas fa-search"></i>
                 </button>
             </form>
@@ -186,34 +211,6 @@
 
     <!-- 主要内容 -->
     <div class="container-fluid tm-container-content tm-mt-60">
-        <!-- 特色部分 -->
-        <div class="row mb-10">
-            <div class="col-12 text-center">
-                <h2 class="tm-text-primary">我们的特色</h2>
-                <div class="section-divider mx-auto"></div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-box">
-                    <i class="fas fa-cogs"></i>
-                    <h3 class="tm-text-primary mb-3">下载方式</h3>
-                    <p>每个产品在详情页都会有详细的简介和下载方式（一般在简介底部）。</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-box">
-                    <i class="fas fa-shield-alt"></i>
-                    <h3 class="tm-text-primary mb-3">产品保障</h3>
-                    <p>我们的产品除了病毒，以及其它标红字体外的产品均为绿色产品，无后门。</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-box">
-                    <i class="fas fa-headphones-alt"></i>
-                    <h3 class="tm-text-primary mb-3">优质服务</h3>
-                    <p>如您在使用过程中有任何疑问，欢迎联系我们提供帮助！<br></p>
-                </div>
-            </div>
-        </div>
 
         <!-- 产品索引 -->
         <div class="row mb-8">
@@ -251,52 +248,42 @@
                         <div class="tm-gallery-title">在线工具</div>
                     </div>
                 </div>
-
-        <!-- 公告区域 -->
-        <div class="row mb-8 bg-light p-5 rounded">
-            <div class="col-md-10">
-                <h3 class="tm-text-primary mb-3">最新公告</h3>
-                <p class="tm-text-gray">Bili_YKChengZi 正在持续开发更多产品，敬请期待！如有任何疑问或建议，欢迎联系我们。</p>
-            </div>
-            <div class="col-md-2 d-flex align-items-center justify-content-center">
-                <i class="fas fa-bullhorn text-primary" style="font-size: 3rem;"></i>
-            </div>
-        </div>
     </div> <!-- 容器结束 -->
 
     <!-- 页脚 -->
-    <footer class="tm-bg-gray pt-5 pb-3 tm-text-gray tm-footer">
+    <footer class="pt-5 pb-3 tm-footer" style="background: transparent;">
         <div class="container-fluid tm-container-small">
+            <div class="footer-divider mb-5"></div>
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-12 px-5 mb-5">
                     <h3 class="tm-text-primary mb-4 tm-footer-title">关于 Bili_YKChengZi</h3>
-                    <p>Bili_YKChengZi 主要分享 Windows 系统相关内容，包括系统优化、修改。我们制作的内容仅供学习和技术交流使用，请大家支持正版软件。</p>
+                    <p style="color: black;">Bili_YKChengZi 主要分享 Windows 系统相关内容，包括系统优化、修改。我制作的内容仅供学习和技术交流使用，请大家支持正版软件。</p>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12 px-5 mb-5">
                     <h3 class="tm-text-primary mb-4 tm-footer-title">快速导航</h3>
                     <ul class="tm-footer-links">
-                        <li><a href="index.html">首页</a></li>
-                        <li><a href="system.html">操作系统</a></li>
-                        <li><a href="about.html">关于</a></li>
+                        <li><a href="index.html" style="color: black;">首页</a></li>
+                        <li><a href="system.html" style="color: black;">操作系统</a></li>
+                        <li><a href="about.html" style="color: black;">关于</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12 px-5 mb-5">
-                    <h3 class="tm-text-primary mb-4 tm-footer-title">联系我们</h3>
+                    <h3 class="tm-text-primary mb-4 tm-footer-title">联系我</h3>
                     <ul class="tm-contacts">
                         <li>
-                            <a href="#" class="tm-text-gray">
+                            <a href="#" style="color: black;">
                                 <i class="fab fa-github mr-2"></i>
                                 GitHub: Bili_YKChengZi
                             </a>
                         </li>
                         <li>
-                            <svg t="1766213223468" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2039" width="20" height="20"><path d="M777.514667 131.669333a53.333333 53.333333 0 0 1 0 75.434667L728.746667 255.829333h49.92A160 160 0 0 1 938.666667 415.872v320a160 160 0 0 1-160 160H245.333333A160 160 0 0 1 85.333333 735.872v-320a160 160 0 0 1 160-160h49.749334L246.4 207.146667a53.333333 53.333333 0 1 1 75.392-75.434667l113.152 113.152c3.370667 3.370667 6.186667 7.04 8.448 10.965333h137.088c2.261333-3.925333 5.12-7.68 8.490667-11.008l113.109333-113.152a53.333333 53.333333 0 0 1 75.434667 0z m1.152 231.253334H245.333333a53.333333 53.333333 0 0 0-53.205333 49.365333l-0.128 4.010667v320c0 28.117333 21.76 51.157333 49.365333 53.162666l3.968 0.170667h533.333334a53.333333 53.333333 0 0 0 53.205333-49.365333l0.128-3.968v-320c0-29.44-23.893333-53.333333-53.333333-53.333334z m-426.666667 106.666666c29.44 0 53.333333 23.893333 53.333333 53.333334v53.333333a53.333333 53.333333 0 1 1-106.666666 0v-53.333333c0-29.44 23.893333-53.333333 53.333333-53.333334z m320 0c29.44 0 53.333333 23.893333 53.333333 53.333334v53.333333a53.333333 53.333333 0 1 1-106.666666 0v-53.333333c0-29.44 23.893333-53.333333 53.333333-53.333334z" p-id="2040" fill="#8a8a8a"></path></svg>
-                                <i class="fab fa-bilibili mr-2"></i>
+                            <a href="#" style="color: black;">
+                                <i class="fas fa-play-circle mr-2"></i>
                                 B站: Bili_YKChengZi
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="tm-text-gray">
+                            <a href="#" style="color: black;">
                                 <i class="fas fa-envelope mr-2"></i>
                                 邮箱: belugajia@outlook.com
                             </a>
@@ -305,11 +292,11 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-8 col-md-7 col-12 px-5 mb-3">
+                <div class="col-lg-8 col-md-7 col-12 px-5 mb-3" style="color: black;">
                     Copyright 2025 Bili_YKChengZi. All rights reserved. | 仅供学习交流使用，请支持正版软件
                 </div>
                 <div class="col-lg-4 col-md-5 col-12 px-5 text-right">
-                    本页面由 <a href="https://templatemo.com" class="tm-text-gray" rel="sponsored" target="_parent">TemplateMo</a> 、 <a href="https://github.com" class="tm-text-gray" rel="sponsored" target="_parent">GitHub</a> 及 <a href="https://nic.lsdt.top/home" class="tm-text-gray" rel="sponsored" target="_parent">鸡享域</a> 强力驱动
+                    本页面由 <a href="https://templatemo.com" style="color: black;" rel="sponsored" target="_parent">TemplateMo</a> 、 <a href="https://github.com" style="color: black;" rel="sponsored" target="_parent">GitHub</a> 及 <a href="https://nic.lsdt.top/home" style="color: black;" rel="sponsored" target="_parent">鸡享域</a> 强力驱动
                 </div>
             </div>
         </div>

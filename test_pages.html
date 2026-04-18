@@ -10,6 +10,89 @@
     <link rel="stylesheet" href="fontawesome/css/all.min.css">
     <link rel="stylesheet" href="css/templatemo-style.css">
     <link rel="shortcut icon" type="image/png" href="img/CZ.ico">
+    <style>
+        /* 网页主体背景 */
+        body {
+            background-image: url('img/wallpaper.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        /* 内容区域背景 */
+        .tm-container-content {
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        
+        /* 页脚分割线 */
+        .footer-divider {
+            height: 2px;
+            background-color: rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+        
+        /* 英雄区域 */
+        .tm-hero {
+            min-height: 400px;
+            background: transparent;
+        }
+        
+        /* 视频详情区域 */
+        .tm-video-details {
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        /* 产品卡片样式 */
+        .tm-video-item {
+            position: relative;
+            display: block;
+            overflow: hidden;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .tm-video-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .tm-video-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        .tm-video-item:hover img {
+            transform: scale(1.05);
+        }
+        .tm-video-item figcaption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .tm-video-item:hover figcaption {
+            opacity: 1;
+        }
+        .tm-video-item figcaption h2 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+        .tm-video-item figcaption a {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body> 
     <!-- Page Loader -->
@@ -20,10 +103,10 @@
         <div class="loader-section section-right"></div>
 
     </div>
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <i class="fab fa-windows mr-2"></i>Bili_YKChengZi
+                <i class="fas fa-seedling mr-2"></i>Bili_YKChengZi
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="切换导航">
                 <i class="fas fa-bars"></i>
@@ -37,6 +120,9 @@
                     <a class="nav-link nav-link-2" href="system.html">操作系统</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="online.html">在线工具</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link nav-link-3" href="about.html">关于</a>
                 </li>
             </ul>
@@ -45,10 +131,10 @@
     </nav>
 
 
-    <div class="tm-hero d-flex justify-content-center align-items-center" data-parallax="scroll" data-image-src="img/wallpaper.png">
-        <form class="d-flex tm-search-form">
-            <input class="form-control tm-search-input" type="search" placeholder="搜索Windows优化、魔改内容..." aria-label="Search">
-            <button class="btn btn-outline-success tm-search-btn" type="submit">
+    <div class="tm-hero d-flex justify-content-center align-items-center">
+        <form class="d-flex tm-search-form mx-auto" style="max-width: 600px; border-radius: 8px; overflow: hidden;">
+            <input class="form-control tm-search-input flex-grow-1" type="search" placeholder="搜索Windows优化、魔改内容..." aria-label="Search" style="border-radius: 0;">
+            <button class="btn btn-outline-light tm-search-btn" type="submit" style="border-radius: 0;">
                 <i class="fas fa-search"></i>
             </button>
         </form>
@@ -210,38 +296,39 @@
         </div> <!-- row -->
     </div> <!-- container-fluid, tm-container-content -->
 
-    <footer class="tm-bg-gray pt-5 pb-3 tm-text-gray tm-footer">
+    <footer class="pt-5 pb-3 tm-footer" style="background: transparent;">
         <div class="container-fluid tm-container-small">
+            <div class="footer-divider mb-5"></div>
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-12 px-5 mb-5">
                     <h3 class="tm-text-primary mb-4 tm-footer-title">关于 Bili_YKChengZi</h3>
-                    <p>Bili_YKChengZi 主要分享 Windows 系统相关内容，包括系统优化、修改。我们制作的内容仅供学习和技术交流使用，请大家支持正版软件。</p>
+                    <p style="color: black;">Bili_YKChengZi 主要分享 Windows 系统相关内容，包括系统优化、修改。我们制作的内容仅供学习和技术交流使用，请大家支持正版软件。</p>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12 px-5 mb-5">
                     <h3 class="tm-text-primary mb-4 tm-footer-title">快速导航</h3>
                     <ul class="tm-footer-links">
-                        <li><a href="index.html">首页</a></li>
-                        <li><a href="system.html">操作系统</a></li>
-                        <li><a href="about.html">关于</a></li>
+                        <li><a href="index.html" style="color: black;">首页</a></li>
+                        <li><a href="system.html" style="color: black;">操作系统</a></li>
+                        <li><a href="about.html" style="color: black;">关于</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12 px-5 mb-5">
                     <h3 class="tm-text-primary mb-4 tm-footer-title">联系我们</h3>
                     <ul class="tm-contacts">
                         <li>
-                            <a href="#" class="tm-text-gray">
+                            <a href="#" style="color: black;">
                                 <i class="fab fa-github mr-2"></i>
                                 GitHub: Bili_YKChengZi
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="tm-text-gray">
+                            <a href="#" style="color: black;">
                                 <i class="fab fa-bilibili mr-2"></i>
                                 B站: Bili_YKChengZi
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="tm-text-gray">
+                            <a href="#" style="color: black;">
                                 <i class="fas fa-envelope mr-2"></i>
                                 邮箱: belugajia@outlook.com
                             </a>
@@ -250,11 +337,11 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-8 col-md-7 col-12 px-5 mb-3">
+                <div class="col-lg-8 col-md-7 col-12 px-5 mb-3" style="color: black;">
                     Copyright 2025 Bili_YKChengZi. All rights reserved. | 仅供学习交流使用，请支持正版软件
                 </div>
                 <div class="col-lg-4 col-md-5 col-12 px-5 text-right">
-                    本页面由 <a href="https://templatemo.com" class="tm-text-gray" rel="sponsored" target="_parent">TemplateMo</a> 、 <a href="https://github.com" class="tm-text-gray" rel="sponsored" target="_parent">GitHub</a> 及 <a href="https://nic.lsdt.top/home" class="tm-text-gray" rel="sponsored" target="_parent">鸡享域</a> 强力驱动
+                    本页面由 <a href="https://templatemo.com" style="color: black;" rel="sponsored" target="_parent">TemplateMo</a> 、 <a href="https://github.com" style="color: black;" rel="sponsored" target="_parent">GitHub</a> 及 <a href="https://nic.lsdt.top/home" style="color: black;" rel="sponsored" target="_parent">鸡享域</a> 强力驱动
                 </div>
             </div>
         </div>
