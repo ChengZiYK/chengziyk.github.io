@@ -41,6 +41,35 @@
         .tm-video-details {
             border-radius: 8px;
             padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            transform: translateY(0) !important;
+        }
+        .tm-video-details:hover {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+            transform: translateY(-4px) !important;
+        }
+        
+        /* 图片阴影 */
+        .img-fluid {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            transform: translateY(0) !important;
+        }
+        .img-fluid:hover {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+            transform: translateY(-4px) !important;
+        }
+        
+        /* 按钮阴影 */
+        a.btn.btn-primary.tm-btn-big {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            transform: translateY(0) !important;
+        }
+        a.btn.btn-primary.tm-btn-big:hover {
+            box-shadow: 0 8px 16px rgba(0,0,0,0.25) !important;
+            transform: translateY(-4px) scale(1.02) !important;
         }
     </style>
     <meta charset="UTF-8">
@@ -77,6 +106,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link nav-link-2 active" href="system.html">操作系统</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="online.html">在线工具</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link nav-link-3" href="about.html">关于</a>
@@ -149,7 +181,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-12 px-5 mb-5">
                     <h3 class="tm-text-primary mb-4 tm-footer-title">关于 Bili_YKChengZi</h3>
-                    <p style="color: black;">Bili_YKChengZi 主要分享 Windows 系统相关内容，包括系统优化、修改。我们制作的内容仅供学习和技术交流使用，请大家支持正版软件。</p>
+                    <p style="color: black;">Bili_YKChengZi 主要分享 Windows 系统相关内容，包括系统优化、修改。我制作的内容仅供学习和技术交流使用，请大家支持正版软件。</p>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12 px-5 mb-5">
                     <h3 class="tm-text-primary mb-4 tm-footer-title">快速导航</h3>
@@ -160,7 +192,7 @@
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12 px-5 mb-5">
-                    <h3 class="tm-text-primary mb-4 tm-footer-title">联系我们</h3>
+                    <h3 class="tm-text-primary mb-4 tm-footer-title">联系我</h3>
                     <ul class="tm-contacts">
                         <li>
                             <a href="#" style="color: black;">
@@ -170,7 +202,7 @@
                         </li>
                         <li>
                             <a href="#" style="color: black;">
-                                <i class="fab fa-bilibili mr-2"></i>
+                                <i class="fas fa-play-circle mr-2"></i>
                                 B站: Bili_YKChengZi
                             </a>
                         </li>
