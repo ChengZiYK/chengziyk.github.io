@@ -130,6 +130,23 @@
             letter-spacing: 0.5px;
         }
         
+        /* 快速导航样式 */
+        .tm-footer-links {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        .tm-footer-links li {
+            margin-bottom: 8px;
+        }
+        .tm-footer-links a {
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .tm-footer-links a:hover {
+            color: #009999 !important;
+        }
+        
         /* 网页主体背景 */
         body {
             background-image: url('img/wallpaper.png');
@@ -144,8 +161,9 @@
             background-color: rgba(255, 255, 255, 0.85);
             border-radius: 8px;
             padding: 30px;
-            margin-top: 30px;
-            margin-bottom: 30px;
+            margin: 20px auto;
+            max-width: calc(100% - 40px);
+            box-sizing: border-box;
         }
         
         /* 页脚分割线 */
@@ -153,6 +171,21 @@
             height: 2px;
             background-color: rgba(0, 0, 0, 0.2);
             width: 100%;
+        }
+        
+        /* 导航指示器 */
+        .nav-indicator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        /* 移除默认的导航下划线 */
+        .nav-link {
+            border-bottom: none !important;
         }
     </style>
 </head>
@@ -165,7 +198,7 @@
     </div>
 
     <!-- 导航栏 -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm" style="margin: 20px auto; max-width: calc(100% - 40px); border-radius: 8px; background-color: rgba(255, 255, 255, 0.85); padding-top: 0.5rem; padding-bottom: 0.5rem; position: relative;">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
                 <i class="fas fa-seedling mr-2"></i>Bili_YKChengZi
@@ -176,7 +209,7 @@
                 <i class="fas fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav ml-auto mb-2 mb-lg-0" id="navbar-nav" style="position: relative;">
                     <li class="nav-item">
                         <a class="nav-link nav-link-1 active" href="index.html">首页</a>
                     </li>
@@ -184,11 +217,12 @@
                         <a class="nav-link nav-link-2" href="system.html">操作系统</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-2" href="online.html">在线工具</a>
+                        <a class="nav-link nav-link-4" href="online.html">在线工具</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link nav-link-3" href="about.html">关于</a>
                     </li>
+                    <div class="nav-indicator" id="nav-indicator"></div>
                 </ul>
             </div>
         </div>
@@ -265,6 +299,7 @@
                     <ul class="tm-footer-links">
                         <li><a href="index.html" style="color: black;">首页</a></li>
                         <li><a href="system.html" style="color: black;">操作系统</a></li>
+                        <li><a href="online.html" style="color: black;">在线工具</a></li>
                         <li><a href="about.html" style="color: black;">关于</a></li>
                     </ul>
                 </div>
@@ -309,6 +344,7 @@
         // 页面加载完成后移除加载动画
         $(window).on("load", function() {
             $('body').addClass('loaded');
+            initNavIndicator();
         });
 
         // 平滑滚动
@@ -334,6 +370,72 @@
                 navbar.classList.remove('py-2');
             }
         });
+
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchForms = document.querySelectorAll('.tm-search-form');
+            searchForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const searchInput = form.querySelector('.tm-search-input');
+                    const searchTerm = searchInput.value.trim();
+                    
+                    if (searchTerm) {
+                        // 使用Bing搜索引擎搜索site:chengziyk.github.io
+                        const searchUrl = 'https://www.bing.com/search?q=site:chengziyk.github.io ' + encodeURIComponent(searchTerm);
+                        window.open(searchUrl, '_blank');
+                    }
+                });
+            });
+        });
+
+        // 导航指示器
+        function initNavIndicator() {
+            const nav = document.getElementById('navbar-nav');
+            const indicator = document.getElementById('nav-indicator');
+            const links = nav.querySelectorAll('.nav-link');
+
+            // 设置初始位置和颜色
+            function setIndicatorPosition(link) {
+                const rect = link.getBoundingClientRect();
+                const navRect = nav.getBoundingClientRect();
+                
+                indicator.style.left = (rect.left - navRect.left) + 'px';
+                indicator.style.width = rect.width + 'px';
+                
+                // 设置颜色
+                if (link.classList.contains('nav-link-1')) {
+                    indicator.style.backgroundColor = '#33CCFF';
+                } else if (link.classList.contains('nav-link-2')) {
+                    indicator.style.backgroundColor = '#FF6666';
+                } else if (link.classList.contains('nav-link-3')) {
+                    indicator.style.backgroundColor = '#33CC66';
+                } else if (link.classList.contains('nav-link-4')) {
+                    indicator.style.backgroundColor = '#CC66CC';
+                }
+            }
+
+            // 初始化
+            const activeLink = nav.querySelector('.active');
+            if (activeLink) {
+                setIndicatorPosition(activeLink);
+            }
+
+            // 鼠标悬停效果
+            links.forEach(link => {
+                link.addEventListener('mouseenter', function() {
+                    setIndicatorPosition(this);
+                });
+            });
+
+            // 鼠标离开导航栏时恢复到活动链接
+            nav.addEventListener('mouseleave', function() {
+                const activeLink = nav.querySelector('.active');
+                if (activeLink) {
+                    setIndicatorPosition(activeLink);
+                }
+            });
+        }
     </script>
 </body>
 </html>

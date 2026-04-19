@@ -25,8 +25,9 @@
             background-color: rgba(255, 255, 255, 0.85);
             border-radius: 8px;
             padding: 30px;
-            margin-top: 30px;
-            margin-bottom: 30px;
+            margin: 20px auto;
+            max-width: calc(100% - 40px);
+            box-sizing: border-box;
         }
         
         /* 页脚分割线 */
@@ -93,6 +94,40 @@
             color: white;
             text-decoration: none;
         }
+        
+        /* 快速导航样式 */
+        .tm-footer-links {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        .tm-footer-links li {
+            margin-bottom: 8px;
+        }
+        .tm-footer-links a {
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .tm-footer-links a:hover {
+            color: #009999 !important;
+        }
+        
+
+        
+        /* 导航指示器 */
+        .nav-indicator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        /* 移除默认的导航下划线 */
+        .nav-link {
+            border-bottom: none !important;
+        }
     </style>
 </head>
 <body> 
@@ -104,7 +139,7 @@
         <div class="loader-section section-right"></div>
 
     </div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm" style="margin: 20px auto; max-width: calc(100% - 40px); border-radius: 8px; background-color: rgba(255, 255, 255, 0.85); padding-top: 0.5rem; padding-bottom: 0.5rem; position: relative;">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
                 <i class="fas fa-seedling mr-2"></i>Bili_YKChengZi
@@ -113,7 +148,7 @@
                 <i class="fas fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav ml-auto mb-2 mb-lg-0" id="navbar-nav" style="position: relative;">
                 <li class="nav-item">
                     <a class="nav-link nav-link-1 active" href="index.html">首页</a>
                 </li>
@@ -121,11 +156,12 @@
                     <a class="nav-link nav-link-2" href="system.html">操作系统</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-2" href="online.html">在线工具</a>
+                    <a class="nav-link nav-link-4" href="online.html">在线工具</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link nav-link-3" href="about.html">关于</a>
                 </li>
+                <div class="nav-indicator" id="nav-indicator"></div>
             </ul>
             </div>
         </div>
@@ -303,18 +339,19 @@
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-12 px-5 mb-5">
                     <h3 class="tm-text-primary mb-4 tm-footer-title">关于 Bili_YKChengZi</h3>
-                    <p style="color: black;">Bili_YKChengZi 主要分享 Windows 系统相关内容，包括系统优化、修改。我们制作的内容仅供学习和技术交流使用，请大家支持正版软件。</p>
+                    <p style="color: black;">Bili_YKChengZi 主要分享 Windows 系统相关内容，包括系统优化、修改。我制作的内容仅供学习和技术交流使用，请大家支持正版软件。</p>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12 px-5 mb-5">
                     <h3 class="tm-text-primary mb-4 tm-footer-title">快速导航</h3>
                     <ul class="tm-footer-links">
                         <li><a href="index.html" style="color: black;">首页</a></li>
                         <li><a href="system.html" style="color: black;">操作系统</a></li>
+                        <li><a href="online.html" style="color: black;">在线工具</a></li>
                         <li><a href="about.html" style="color: black;">关于</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12 px-5 mb-5">
-                    <h3 class="tm-text-primary mb-4 tm-footer-title">联系我们</h3>
+                    <h3 class="tm-text-primary mb-4 tm-footer-title">联系我</h3>
                     <ul class="tm-contacts">
                         <li>
                             <a href="#" style="color: black;">
@@ -324,7 +361,7 @@
                         </li>
                         <li>
                             <a href="#" style="color: black;">
-                                <i class="fab fa-bilibili mr-2"></i>
+                                <i class="fas fa-play-circle mr-2"></i>
                                 B站: Bili_YKChengZi
                             </a>
                         </li>
@@ -352,7 +389,74 @@
     <script>
         $(window).on("load", function() {
             $('body').addClass('loaded');
+            initNavIndicator();
         });
+
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchForms = document.querySelectorAll('.tm-search-form');
+            searchForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const searchInput = form.querySelector('.tm-search-input');
+                    const searchTerm = searchInput.value.trim();
+                    
+                    if (searchTerm) {
+                        // 使用Bing搜索引擎搜索site:chengziyk.github.io
+                        const searchUrl = 'https://www.bing.com/search?q=site:chengziyk.github.io ' + encodeURIComponent(searchTerm);
+                        window.open(searchUrl, '_blank');
+                    }
+                });
+            });
+        });
+
+        // 导航指示器
+        function initNavIndicator() {
+            const nav = document.getElementById('navbar-nav');
+            const indicator = document.getElementById('nav-indicator');
+            const links = nav.querySelectorAll('.nav-link');
+
+            // 设置初始位置和颜色
+            function setIndicatorPosition(link) {
+                const rect = link.getBoundingClientRect();
+                const navRect = nav.getBoundingClientRect();
+                
+                indicator.style.left = (rect.left - navRect.left) + 'px';
+                indicator.style.width = rect.width + 'px';
+                
+                // 设置颜色
+                if (link.classList.contains('nav-link-1')) {
+                    indicator.style.backgroundColor = '#33CCFF';
+                } else if (link.classList.contains('nav-link-2')) {
+                    indicator.style.backgroundColor = '#FF6666';
+                } else if (link.classList.contains('nav-link-3')) {
+                    indicator.style.backgroundColor = '#33CC66';
+                } else if (link.classList.contains('nav-link-4')) {
+                    indicator.style.backgroundColor = '#CC66CC';
+                }
+            }
+
+            // 初始化
+            const activeLink = nav.querySelector('.active');
+            if (activeLink) {
+                setIndicatorPosition(activeLink);
+            }
+
+            // 鼠标悬停效果
+            links.forEach(link => {
+                link.addEventListener('mouseenter', function() {
+                    setIndicatorPosition(this);
+                });
+            });
+
+            // 鼠标离开导航栏时恢复到活动链接
+            nav.addEventListener('mouseleave', function() {
+                const activeLink = nav.querySelector('.active');
+                if (activeLink) {
+                    setIndicatorPosition(activeLink);
+                }
+            });
+        }
     </script>
 </body>
 </html>

@@ -217,6 +217,7 @@ a.tm-text-primary:hover { color:#666666; }
     color: #666666;
     border-bottom: 4px solid transparent;
     font-size: 1.2rem;
+    transition: all 0.3s ease;
 }
 
 .nav-link-1.active,
