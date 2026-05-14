@@ -187,6 +187,14 @@
         .nav-link {
             border-bottom: none !important;
         }
+        
+        /* 搜索框悬停效果 */
+        .tm-search-input:hover {
+            white-space: normal !important;
+            overflow: visible !important;
+            text-overflow: clip !important;
+            word-wrap: break-word;
+        }
     </style>
 </head>
 <body>
@@ -234,10 +242,10 @@
     <div class="tm-hero d-flex justify-content-center align-items-center">
         <div class="text-center mb-5">
             <h1 class="text-white mb-4 display-4">Bili_YKChengZi</h1>
-            <form class="d-flex tm-search-form mx-auto" style="max-width: 600px; border-radius: 8px; overflow: hidden;">
+            <form class="d-flex tm-search-form mx-auto" style="max-width: 600px; width: 90%; overflow: hidden;">
                 <input class="form-control tm-search-input flex-grow-1" type="search" 
-                       placeholder="搜索产品..." aria-label="搜索" style="border-radius: 0;">
-                <button class="btn btn-outline-light tm-search-btn" type="submit" style="border-radius: 0;">
+                       placeholder="搜索产品..." aria-label="搜索" style="border-radius: 8px 0 0 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                <button class="btn btn-outline-light tm-search-btn" type="submit" style="border-radius: 0 8px 8px 0;">
                     <i class="fas fa-search"></i>
                 </button>
             </form>
@@ -283,9 +291,24 @@
                         <div class="tm-gallery-title">在线工具</div>
                     </div>
                 </div>
-    </div> <!-- 容器结束 -->
 
-    <!-- 页脚 -->
+                <!-- 产品卡片 3 -->
+                <div class="tm-gallery-item">
+                    <figure class="tm-video-item">
+                        <img src="img/markdown.png" alt="Minecraft服务器" class="img-fluid">
+                        <figcaption>
+                            <h2>Minecraft服务器</h2>
+                            <a href="minecraftserver.html">查看更多</a>
+                        </figcaption>                    
+                    </figure>
+                    <div class="tm-gallery-description">
+                        <div class="tm-gallery-title">Minecraft服务器</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
     <footer class="pt-5 pb-3 tm-footer" style="background: transparent;">
         <div class="container-fluid tm-container-small">
             <div class="footer-divider mb-5"></div>
@@ -332,7 +355,7 @@
                     Copyright 2025 Bili_YKChengZi. All rights reserved. | 仅供学习交流使用，请支持正版软件
                 </div>
                 <div class="col-lg-4 col-md-5 col-12 px-5 text-right">
-                    本页面由 <a href="https://templatemo.com" style="color: black;" rel="sponsored" target="_parent">TemplateMo</a> 、 <a href="https://github.com" style="color: black;" rel="sponsored" target="_parent">GitHub</a> 及 <a href="https://nic.lsdt.top/home" style="color: black;" rel="sponsored" target="_parent">鸡享域</a> 强力驱动
+                    本页面由 <a href="https://templatemo.com" style="color: black;" rel="sponsored" target="_parent">TemplateMo</a> 、 <a href="https://github.com" style="color: black;" rel="sponsored" target="_parent">GitHub</a> 、 <a href="https://dash.domain.digitalplat.org/" style="color: black;" rel="sponsored" target="_parent">DigitalPlat</a> 及 <a href="https://cloudflare.com/" style="color: black;" rel="sponsored" target="_parent">CloudFlare</a> 强力驱动
                 </div>
             </div>
         </div>
