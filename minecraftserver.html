@@ -11,6 +11,16 @@
     <link rel="stylesheet" href="css/templatemo-style.css">
     <link rel="shortcut icon" type="image/png" href="img/CZ.ico">
     <style>
+        /* 按钮阴影 */
+        a.btn.btn-primary.tm-btn-big {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            transform: translateY(0) !important;
+        }
+        a.btn.btn-primary.tm-btn-big:hover {
+            box-shadow: 0 8px 16px rgba(0,0,0,0.25) !important;
+            transform: translateY(-4px) scale(1.02) !important;
+        }
         /* 网页主体背景 */
         body {
             background-image: url('img/wallpaper.png');
@@ -120,10 +130,13 @@
                     <a class="nav-link nav-link-1" href="index.html">首页</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-2 active" href="system.html">操作系统</a>
+                    <a class="nav-link nav-link-2" href="system.html">操作系统</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link nav-link-4" href="online.html">在线工具</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-5 active" href="minecraftserver.html">我的世界服务器</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link nav-link-3" href="about.html">关于</a>
@@ -137,7 +150,7 @@
 
     <div class="tm-hero d-flex justify-content-center align-items-center">
         <form class="d-flex tm-search-form mx-auto" style="max-width: 600px; width: 90%; overflow: hidden;">
-            <input class="form-control tm-search-input flex-grow-1" type="search" placeholder="搜索Minecraft服务器..." aria-label="Search" style="border-radius: 8px 0 0 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            <input class="form-control tm-search-input flex-grow-1" type="search" placeholder="搜索..." aria-label="Search" style="border-radius: 8px 0 0 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
             <button class="btn btn-outline-light tm-search-btn" type="submit" style="border-radius: 0 8px 8px 0;">
                 <i class="fas fa-search"></i>
             </button>
@@ -146,7 +159,7 @@
 
 <div class="container-fluid tm-container-content tm-mt-60">
     <div class="row mb-4">
-        <h2 class="col-12 tm-text-primary">橙猫生存服务器</h2>
+        <h2 class="col-12 tm-text-primary">我的世界 橙猫生存服务器</h2>
     </div>
     <div class="row tm-mb-90">            
         <div class="col-xl-12">
@@ -155,17 +168,18 @@
                     欢迎来到 <strong>橙猫生存服务器</strong>！
                     <br><br>
                     在这里，我们为每一位 Minecraft 爱好者打造一个纯粹、温馨、持久的游戏家园。无论你是喜欢悠闲建造、探索矿洞、还是热衷于挑战各种生存任务，这里都将是你理想的去处。
-                    <br><br>
-                    为了让每位玩家都能安心享受游戏，我们配置了强大的领地保护系统，让你的每一份心血都能得到妥善守护；更有丰富的称号系统，部分特色称号还会带来独特的增益效果，让你的生存之旅更加精彩！
                 </p>
                 
                 <div class="mb-4">
-                    <h3 class="tm-text-gray-dark mb-3">核心亮点</h3>
-                    <p>• <strong>安全领地，无忧建造</strong>：使用专业领地插件，通过简单指令即可保护你的建筑、农场与仓库，彻底告别恶意破坏，安心享受"养老"般的惬意时光。
-                    <br>• <strong>稳定运营，长期相伴</strong>：我们承诺服务器将长期稳定运行，配合完善的领地系统，确保你的每一处建筑、每一个收藏都能得到永久保存。
+                    <h3 class="tm-text-gray-dark mb-3">一些信息</h3>
+                    <p>服务器版本为 <strong>1.21.11</strong> ，使用 <strong>Leaves</strong> 作为服务端。
+                    <br>• <strong>领地</strong>：服务器内设有领地插件，玩家可以通过 <strong>/dom</strong> 指令来管理自己的领地，防止自己的赛博资产被恶意破坏。
                     <br>• <strong>跨版互通，自由畅玩</strong>：无论是 Minecraft Java 版还是基岩版的玩家，都能顺畅加入我们的服务器，与好友一起探索世界。
                     <br>• <strong>友善社区，和谐互助</strong>：我们倡导友好互助的社区氛围，鼓励玩家间互相帮助，共同营造轻松愉快的游戏环境。
-                    <br>• <strong>数据安全，一键回档</strong>：为了守护大家的建筑与财产，我们部署了 CoreProtect 插件，如遇意外情况可快速恢复，让你游玩无后顾之忧。</p>
+                    <br>• <strong>数据安全，一键回档</strong>：为了守护大家的建筑与财产，我们部署了 CoreProtect 插件，如遇意外情况可快速恢复，让你游玩无后顾之忧。
+                    <br>• <strong>点券系统</strong>：服务器使用了 PlayerPoints 插件，玩家可以在服务器内购买点券，用于购买称号等内容，且获取点券完全免费。
+                    <br>• <strong>获取点券的方法</strong>：服务器设有在线奖励系统，玩家可以通过累计在线时长获取点券。每日在线30分钟可获得15点券，60分钟可获得30点券，120分钟可获得600点券，240分钟可获得1200点券。每周在线500分钟可额外获得5000点券，每月在线1000分钟可获得10000点券，每年在线10000分钟可获得100000点券，累计在线20000分钟更可获得200000点券大奖。另外，您也可以在每日的签到中获取。
+                    <br>• <strong>称号系统</strong>：我们配置了丰富的称号系统，称号可以使用点券进行购买，部分特色称号还会带来独特的增益效果，让你的生存之旅更加精彩！</p>
                 </div>
                 
                 <div class="mb-4 d-flex flex-wrap">
@@ -179,19 +193,15 @@
                 
                 <div class="mb-4">
                     <h3 class="tm-text-gray-dark mb-3">连接信息</h3>
-                    <p>• <strong>Java 版地址：</strong> chengmao.jkun.cf:30411
-                    <br>• <strong>基岩版地址：</strong> chengmao.jkun.cf
+                    <p>• <strong>Java 版地址：</strong> chengmao.jkun.cf:30411（版本 [1.9～1.21.11]）
+                    <br>• <strong>基岩版地址：</strong> chengmao.jkun.cf（版本 [1.21.70~1.21.8]）
                     <br>• <strong>基岩版端口：</strong> 19526</p>
                 </div>
-                
-                <div>
-                    <h3 class="tm-text-gray-dark mb-3">服务器特性</h3>
-                    <a href="#" class="tm-text-primary mr-4 mb-2 d-inline-block">原版生存</a>
-                    <a href="#" class="tm-text-primary mr-4 mb-2 d-inline-block">领地保护</a>
-                    <a href="#" class="tm-text-primary mr-4 mb-2 d-inline-block">称号系统</a>
-                    <a href="#" class="tm-text-primary mr-4 mb-2 d-inline-block">跨版互通</a>
-                    <a href="#" class="tm-text-primary mr-4 mb-2 d-inline-block">数据回档</a>
-                    <a href="#" class="tm-text-primary mr-4 mb-2 d-inline-block">友好社区</a>
+
+                <div class="mb-4">
+                    <h3 class="tm-text-gray-dark mb-3">服务器交流群</h3>
+                        <div class="text-center mb-5">
+                        <a href="https://qm.qq.com/q/6MYihAqaty" class="btn btn-primary tm-btn-big d-block mb-3">点击加入 QQ 群</a> 
                 </div>
             </div>
         </div>
@@ -210,6 +220,7 @@
                         <li><a href="index.html" style="color: black;">首页</a></li>
                         <li><a href="system.html" style="color: black;">操作系统</a></li>
                         <li><a href="online.html" style="color: black;">在线工具</a></li>
+                        <li><a href="minecraftserver.html" style="color: black;">我的世界服务器</a></li>
                         <li><a href="about.html" style="color: black;">关于</a></li>
                     </ul>
                 </div>
@@ -297,6 +308,8 @@
                     indicator.style.backgroundColor = '#33CC66';
                 } else if (link.classList.contains('nav-link-4')) {
                     indicator.style.backgroundColor = '#CC66CC';
+                } else if (link.classList.contains('nav-link-5')) {
+                    indicator.style.backgroundColor = '#FF9933';
                 }
             }
 
