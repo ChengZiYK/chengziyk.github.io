@@ -383,6 +383,24 @@
                 navbar.classList.remove('py-2');
             }
         });
+
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchForms = document.querySelectorAll('.tm-search-form');
+            searchForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const searchInput = form.querySelector('.tm-search-input');
+                    const searchTerm = searchInput.value.trim();
+                    
+                    if (searchTerm) {
+                        // 使用Bing搜索引擎搜索site:ykchengzi.qzz.io
+                        const searchUrl = 'https://www.bing.com/search?q=site:ykchengzi.qzz.io ' + encodeURIComponent(searchTerm);
+                        window.open(searchUrl, '_blank');
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
