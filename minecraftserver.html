@@ -296,19 +296,33 @@
         async function fetchPlayerCount() {
             const onlineCountElement = document.getElementById('online-count-hero');
             try {
-                const response = await fetch('http://chengmao.jkun.cf:36779/open-api/players');
-                const data = await response.json();
+                // 尝试直接请求，失败则使用CORS代理
+                let response;
+                let data;
+                try {
+                    response = await fetch('http://chengmao.jkun.cf:36779/open-api/players');
+                    data = await response.json();
+                } catch (directError) {
+                    // 直接请求失败，使用CORS代理
+                    console.log('直接请求失败，尝试使用CORS代理');
+                    const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                    response = await fetch(proxyUrl + encodeURIComponent('http://chengmao.jkun.cf:36779/open-api/players'));
+                    data = await response.json();
+                }
                 
                 if (data.code === 200 && data.players) {
                     // 计算在线玩家数
                     const onlinePlayers = data.players.filter(player => player.isOnline === true).length;
                     onlineCountElement.textContent = `${onlinePlayers} 人在线`;
+                    onlineCountElement.style.color = '#33CC66';
                 } else {
                     onlineCountElement.textContent = '获取失败';
+                    onlineCountElement.style.color = '#FF6666';
                 }
             } catch (error) {
                 console.error('获取玩家人数失败:', error);
                 onlineCountElement.textContent = '获取失败';
+                onlineCountElement.style.color = '#FF6666';
             }
         }
 
