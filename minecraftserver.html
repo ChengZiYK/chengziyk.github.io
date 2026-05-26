@@ -148,7 +148,15 @@
     </nav>
 
 
-    <div class="tm-hero d-flex justify-content-center align-items-center">
+    <div class="tm-hero d-flex flex-column justify-content-center align-items-center">
+        <div class="text-center mb-4">
+            <h1 class="text-white mb-3 display-4">橙猫生存服务器</h1>
+            <div class="online-players-card">
+                <i class="fas fa-users text-white mr-2"></i>
+                <span class="text-white">在线玩家：</span>
+                <span class="text-primary font-weight-bold" id="online-count-hero">加载中...</span>
+            </div>
+        </div>
         <form class="d-flex tm-search-form mx-auto" style="max-width: 600px; width: 90%; overflow: hidden;">
             <input class="form-control tm-search-input flex-grow-1" type="search" placeholder="搜索..." aria-label="Search" style="border-radius: 8px 0 0 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
             <button class="btn btn-outline-light tm-search-btn" type="submit" style="border-radius: 0 8px 8px 0;">
@@ -156,6 +164,18 @@
             </button>
         </form>
     </div>
+    
+    <style>
+        .online-players-card {
+            display: inline-block;
+            padding: 12px 24px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1.2rem;
+        }
+    </style>
 
 <div class="container-fluid tm-container-content tm-mt-60">
     <div class="row mb-4">
@@ -263,10 +283,34 @@
     
     <script src="js/plugins.js"></script>
     <script>
+        // 页面加载完成后移除加载动画
         $(window).on("load", function() {
             $('body').addClass('loaded');
             initNavIndicator();
+            fetchPlayerCount();
+            // 每30秒刷新一次在线玩家人数
+            setInterval(fetchPlayerCount, 30000);
         });
+
+        // 获取在线玩家人数
+        async function fetchPlayerCount() {
+            const onlineCountElement = document.getElementById('online-count-hero');
+            try {
+                const response = await fetch('http://chengmao.jkun.cf:36779/open-api/players');
+                const data = await response.json();
+                
+                if (data.code === 200 && data.players) {
+                    // 计算在线玩家数
+                    const onlinePlayers = data.players.filter(player => player.isOnline === true).length;
+                    onlineCountElement.textContent = `${onlinePlayers} 人在线`;
+                } else {
+                    onlineCountElement.textContent = '获取失败';
+                }
+            } catch (error) {
+                console.error('获取玩家人数失败:', error);
+                onlineCountElement.textContent = '获取失败';
+            }
+        }
 
         // 搜索功能
         document.addEventListener('DOMContentLoaded', function() {
