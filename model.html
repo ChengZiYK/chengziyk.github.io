@@ -27,13 +27,34 @@
             background-repeat: no-repeat;
         }
         
-        /* 内容区域背景 */
+        /* 内容区域背景（毛玻璃效果） */
         .tm-container-content {
-            background-color: rgba(255, 255, 255, 0.85);
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border-radius: 8px;
             padding: 30px;
             margin-top: 30px;
             margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15),
+                        0 4px 16px rgba(0, 0, 0, 0.1),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+        
+        /* 英雄区域阴影效果 */
+        .tm-hero .display-4 {
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5),
+                        0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .tm-hero .text-white {
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .tm-search-form {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3),
+                        0 2px 10px rgba(0, 0, 0, 0.2);
         }
         
         /* 页脚分割线 */
@@ -167,7 +188,7 @@
     </div>
 
     <!-- 导航栏 -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light" style="margin: 20px auto; max-width: calc(100% - 40px); border-radius: 8px; background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.3); padding-top: 0.5rem; padding-bottom: 0.5rem; position: relative; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4);">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
                 <i class="fas fa-seedling mr-2"></i>Bili_YKChengZi
@@ -367,20 +388,6 @@
                     behavior: 'smooth'
                 });
             });
-        });
-
-        // 导航栏滚动效果
-        window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('shadow-md');
-                navbar.classList.add('py-2');
-                navbar.classList.remove('py-3');
-            } else {
-                navbar.classList.remove('shadow-md');
-                navbar.classList.add('py-3');
-                navbar.classList.remove('py-2');
-            }
         });
 
         // 搜索功能
