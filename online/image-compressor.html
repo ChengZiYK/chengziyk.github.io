@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="图片压缩工具 - 支持上传图片，压缩，下载">
+    <title>图片压缩工具</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="../css/templatemo-style.css">
+    <link rel="shortcut icon" type="image/png" href="../img/CZ.ico">
+    <style>
+        body {
+            background-image: url('../img/wallpaper.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .tm-hero {
+            min-height: 400px;
+            background: transparent;
+        }
+        .tm-container-content {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 8px;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: calc(100% - 40px);
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15),
+                        0 4px 16px rgba(0, 0, 0, 0.1),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+        .tm-hero .display-4 {
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5),
+                        0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .tm-hero .text-white {
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .btn-action {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .footer-divider {
+            height: 2px;
+            background-color: rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+        .nav-indicator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        .nav-link {
+            border-bottom: none !important;
+        }
+        .image-preview {
+            max-width: 100%;
+            max-height: 400px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 10px;
+        }
+        .image-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .image-box {
+            flex: 1;
+            min-width: 250px;
+        }
+    </style>
+</head>
+<body>
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light" style="margin: 20px auto; max-width: calc(100% - 40px); border-radius: 8px; background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.3); padding-top: 0.5rem; padding-bottom: 0.5rem; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4);">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="../index.html">
+                <i class="fas fa-seedling mr-2"></i>Bili_YKChengZi
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto" id="navbar-nav" style="position: relative;">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-1" href="../index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-2" href="../system.html">操作系统</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-4 active" href="../online.html">在线工具</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-5" href="../minecraftserver.html">我的世界服务器</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-3" href="../about.html">关于</a>
+                    </li>
+                    <div class="nav-indicator" id="nav-indicator"></div>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="tm-hero d-flex justify-content-center align-items-center">
+        <div class="text-center mb-5">
+            <h1 class="text-white mb-4 display-4">图片压缩工具</h1>
+            <p class="text-white lead mb-5 max-w-2xl mx-auto">上传图片，选择压缩质量，下载压缩后的图片！</p>
+        </div>
+    </div>
+
+    <div class="container-fluid tm-container-content tm-mt-60">
+        <div class="row mb-8">
+            <div class="col-12">
+                <h2 class="tm-text-primary mb-4">图片压缩</h2>
+                
+                <div class="mb-4">
+                    <label for="imageInput" class="form-label font-weight-bold">选择图片</label>
+                    <input type="file" id="imageInput" class="form-control" accept="image/*">
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label for="qualityInput" class="form-label font-weight-bold">压缩质量 (0-100)</label>
+                        <input type="range" id="qualityInput" class="form-range" min="0" max="100" value="80">
+                        <div class="text-center font-weight-bold" id="qualityValue">80%</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="formatSelect" class="form-label font-weight-bold">输出格式</label>
+                        <select id="formatSelect" class="form-control">
+                            <option value="image/jpeg">JPEG</option>
+                            <option value="image/png">PNG</option>
+                            <option value="image/webp">WebP</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <button id="compressBtn" class="btn btn-primary btn-action">
+                        <i class="fas fa-compress mr-2"></i>压缩图片
+                    </button>
+                    <button id="downloadBtn" class="btn btn-success btn-action" style="display: none;">
+                        <i class="fas fa-download mr-2"></i>下载压缩图
+                    </button>
+                    <button id="resetBtn" class="btn btn-danger btn-action">
+                        <i class="fas fa-undo mr-2"></i>重置
+                    </button>
+                </div>
+                
+                <div class="image-container">
+                    <div class="image-box">
+                        <h4 class="tm-text-primary mb-3">原图</h4>
+                        <div id="originalInfo" class="mb-2"></div>
+                        <img id="originalImage" class="image-preview" style="display: none;" alt="原图">
+                    </div>
+                    <div class="image-box">
+                        <h4 class="tm-text-primary mb-3">压缩后</h4>
+                        <div id="compressedInfo" class="mb-2"></div>
+                        <img id="compressedImage" class="image-preview" style="display: none;" alt="压缩后">
+                    </div>
+                </div>
+                
+                <div id="message" class="alert" role="alert" style="display: none;"></div>
+            </div>
+        </div>
+        
+        <footer class="pt-5 pb-3 tm-footer" style="background: transparent;">
+            <div class="container-fluid tm-container-small">
+                <div class="footer-divider mb-5"></div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-12 px-5 mb-5">
+                        <h3 class="tm-text-primary mb-4 tm-footer-title">关于 Bili_YKChengZi</h3>
+                        <p style="color: black;">Bili_YKChengZi 主要分享 Windows 系统相关内容，包括系统优化、修改。我制作的内容仅供学习和技术交流使用，请大家支持正版软件。</p>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12 px-5 mb-5">
+                        <h3 class="tm-text-primary mb-4 tm-footer-title">快速导航</h3>
+                        <ul class="tm-footer-links">
+                            <li><a href="../index.html" style="color: black;">首页</a></li>
+                            <li><a href="../system.html" style="color: black;">操作系统</a></li>
+                            <li><a href="../online.html" style="color: black;">在线工具</a></li>
+                            <li><a href="../minecraftserver.html" style="color: black;">我的世界服务器</a></li>
+                            <li><a href="../about.html" style="color: black;">关于</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12 px-5 mb-5">
+                        <h3 class="tm-text-primary mb-4 tm-footer-title">联系我</h3>
+                        <ul class="tm-contacts">
+                            <li>
+                                <a href="#" style="color: black;">
+                                    <i class="fab fa-github mr-2"></i>
+                                    GitHub: Bili_YKChengZi
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" style="color: black;">
+                                    <i class="fas fa-play-circle mr-2"></i>
+                                    B站: Bili_YKChengZi
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" style="color: black;">
+                                    <i class="fas fa-envelope mr-2"></i>
+                                    邮箱: belugajia@outlook.com
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="../js/plugins.js"></script>
+    <script>
+        $(window).on("load", function() {
+            $("body").addClass("loaded");
+            initNavIndicator();
+        });
+
+        function initNavIndicator() {
+            const nav = document.getElementById('navbar-nav');
+            const indicator = document.getElementById('nav-indicator');
+            const links = nav.querySelectorAll('.nav-link');
+
+            function setIndicatorPosition(link) {
+                const rect = link.getBoundingClientRect();
+                const navRect = nav.getBoundingClientRect();
+                
+                indicator.style.left = (rect.left - navRect.left) + 'px';
+                indicator.style.width = rect.width + 'px';
+                
+                if (link.classList.contains('nav-link-1')) {
+                    indicator.style.backgroundColor = '#33CCFF';
+                } else if (link.classList.contains('nav-link-2')) {
+                    indicator.style.backgroundColor = '#FF6666';
+                } else if (link.classList.contains('nav-link-3')) {
+                    indicator.style.backgroundColor = '#33CC66';
+                } else if (link.classList.contains('nav-link-4')) {
+                    indicator.style.backgroundColor = '#CC66CC';
+                } else if (link.classList.contains('nav-link-5')) {
+                    indicator.style.backgroundColor = '#FF9933';
+                }
+            }
+
+            const activeLink = nav.querySelector('.active');
+            if (activeLink) {
+                setIndicatorPosition(activeLink);
+            }
+
+            links.forEach(link => {
+                link.addEventListener('mouseenter', function() {
+                    setIndicatorPosition(this);
+                });
+            });
+
+            nav.addEventListener('mouseleave', function() {
+                const activeLink = nav.querySelector('.active');
+                if (activeLink) {
+                    setIndicatorPosition(activeLink);
+                }
+            });
+        }
+
+        const imageInput = document.getElementById('imageInput');
+        const qualityInput = document.getElementById('qualityInput');
+        const qualityValue = document.getElementById('qualityValue');
+        const formatSelect = document.getElementById('formatSelect');
+        const compressBtn = document.getElementById('compressBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const originalImage = document.getElementById('originalImage');
+        const compressedImage = document.getElementById('compressedImage');
+        const originalInfo = document.getElementById('originalInfo');
+        const compressedInfo = document.getElementById('compressedInfo');
+        const message = document.getElementById('message');
+
+        let originalFile = null;
+        let compressedDataURL = null;
+
+        function showMessage(text, type) {
+            message.textContent = text;
+            message.className = 'alert alert-' + type;
+            message.style.display = 'block';
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 3000);
+        }
+
+        function formatSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        qualityInput.addEventListener('input', () => {
+            qualityValue.textContent = qualityInput.value + '%';
+        });
+
+        imageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.startsWith('image/')) {
+                showMessage('请选择图片文件', 'warning');
+                return;
+            }
+            
+            originalFile = file;
+            const reader = new FileReader();
+            
+            reader.onload = (event) => {
+                originalImage.src = event.target.result;
+                originalImage.style.display = 'block';
+                originalInfo.innerHTML = `
+                    <p><strong>文件名:</strong> ${file.name}</p>
+                    <p><strong>大小:</strong> ${formatSize(file.size)}</p>
+                    <p><strong>类型:</strong> ${file.type}</p>
+                `;
+                
+                compressedImage.style.display = 'none';
+                compressedInfo.innerHTML = '';
+                downloadBtn.style.display = 'none';
+                compressedDataURL = null;
+            };
+            
+            reader.readAsDataURL(file);
+        });
+
+        compressBtn.addEventListener('click', () => {
+            if (!originalFile) {
+                showMessage('请先选择图片', 'warning');
+                return;
+            }
+            
+            const quality = parseInt(qualityInput.value) / 100;
+            const format = formatSelect.value;
+            
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                
+                canvas.toBlob((blob) => {
+                    compressedDataURL = URL.createObjectURL(blob);
+                    compressedImage.src = compressedDataURL;
+                    compressedImage.style.display = 'block';
+                    compressedInfo.innerHTML = `
+                        <p><strong>大小:</strong> ${formatSize(blob.size)}</p>
+                        <p><strong>类型:</strong> ${format}</p>
+                        <p><strong>压缩比:</strong> ${((1 - blob.size / originalFile.size) * 100).toFixed(1)}%</p>
+                    `;
+                    downloadBtn.style.display = 'inline-block';
+                    showMessage('图片压缩成功！', 'success');
+                }, format, quality);
+            };
+            
+            img.src = originalImage.src;
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            if (!compressedDataURL) {
+                showMessage('请先压缩图片', 'warning');
+                return;
+            }
+            
+            const link = document.createElement('a');
+            const extension = formatSelect.value.split('/')[1];
+            const originalName = originalFile.name.split('.')[0];
+            link.download = `${originalName}_compressed.${extension}`;
+            link.href = compressedDataURL;
+            link.click();
+            showMessage('下载成功！', 'success');
+        });
+
+        resetBtn.addEventListener('click', () => {
+            imageInput.value = '';
+            originalFile = null;
+            originalImage.style.display = 'none';
+            originalInfo.innerHTML = '';
+            compressedImage.style.display = 'none';
+            compressedInfo.innerHTML = '';
+            downloadBtn.style.display = 'none';
+            compressedDataURL = null;
+            qualityInput.value = 80;
+            qualityValue.textContent = '80%';
+            message.style.display = 'none';
+        });
+    </script>
+</body>
+</html>

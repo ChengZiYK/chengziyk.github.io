@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="时间戳转换器 - 支持时间戳转日期和日期转时间戳">
+    <title>时间戳转换器</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="../css/templatemo-style.css">
+    <link rel="shortcut icon" type="image/png" href="../img/CZ.ico">
+    <style>
+        body {
+            background-image: url('../img/wallpaper.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .tm-hero {
+            min-height: 400px;
+            background: transparent;
+        }
+        .tm-container-content {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 8px;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: calc(100% - 40px);
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15),
+                        0 4px 16px rgba(0, 0, 0, 0.1),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+        .tm-hero .display-4 {
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5),
+                        0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .tm-hero .text-white {
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .btn-action {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .footer-divider {
+            height: 2px;
+            background-color: rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+        .nav-indicator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        .nav-link {
+            border-bottom: none !important;
+        }
+        .result-box {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            border: 1px solid #444;
+            border-radius: 4px;
+            padding: 15px;
+            min-height: 60px;
+        }
+    </style>
+</head>
+<body>
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light" style="margin: 20px auto; max-width: calc(100% - 40px); border-radius: 8px; background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.3); padding-top: 0.5rem; padding-bottom: 0.5rem; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4);">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="../index.html">
+                <i class="fas fa-seedling mr-2"></i>Bili_YKChengZi
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto" id="navbar-nav" style="position: relative;">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-1" href="../index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-2" href="../system.html">操作系统</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-4 active" href="../online.html">在线工具</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-5" href="../minecraftserver.html">我的世界服务器</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-3" href="../about.html">关于</a>
+                    </li>
+                    <div class="nav-indicator" id="nav-indicator"></div>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="tm-hero d-flex justify-content-center align-items-center">
+        <div class="text-center mb-5">
+            <h1 class="text-white mb-4 display-4">时间戳转换器</h1>
+            <p class="text-white lead mb-5 max-w-2xl mx-auto">轻松转换时间戳和日期时间格式！</p>
+        </div>
+    </div>
+
+    <div class="container-fluid tm-container-content tm-mt-60">
+        <div class="row mb-8">
+            <div class="col-12">
+                <div class="mb-4">
+                    <button id="nowBtn" class="btn btn-info btn-action">
+                        <i class="fas fa-clock mr-2"></i>获取当前时间戳
+                    </button>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <h3 class="tm-text-primary mb-4">时间戳 → 日期</h3>
+                        <div class="mb-3">
+                            <label for="timestampInput" class="form-label font-weight-bold">时间戳（毫秒）</label>
+                            <input type="number" id="timestampInput" class="form-control" placeholder="输入时间戳，如 1717777777777">
+                        </div>
+                        <div class="mb-3">
+                            <button id="toDateBtn" class="btn btn-primary btn-action">
+                                <i class="fas fa-calendar mr-2"></i>转换为日期
+                            </button>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label font-weight-bold">转换结果</label>
+                            <div id="dateResult" class="result-box">结果将显示在这里...</div>
+                        </div>
+                        <div class="mb-3">
+                            <button id="copyDateBtn" class="btn btn-secondary btn-action">
+                                <i class="fas fa-copy mr-2"></i>复制结果
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <h3 class="tm-text-primary mb-4">日期 → 时间戳</h3>
+                        <div class="mb-3">
+                            <label for="dateInput" class="form-label font-weight-bold">日期时间</label>
+                            <input type="datetime-local" id="dateInput" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <button id="toTimestampBtn" class="btn btn-success btn-action">
+                                <i class="fas fa-timer mr-2"></i>转换为时间戳
+                            </button>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label font-weight-bold">转换结果</label>
+                            <div id="timestampResult" class="result-box">结果将显示在这里...</div>
+                        </div>
+                        <div class="mb-3">
+                            <button id="copyTimestampBtn" class="btn btn-secondary btn-action">
+                                <i class="fas fa-copy mr-2"></i>复制结果
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="message" class="alert" role="alert" style="display: none;"></div>
+            </div>
+        </div>
+        
+        <footer class="pt-5 pb-3 tm-footer" style="background: transparent;">
+            <div class="container-fluid tm-container-small">
+                <div class="footer-divider mb-5"></div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-12 px-5 mb-5">
+                        <h3 class="tm-text-primary mb-4 tm-footer-title">关于 Bili_YKChengZi</h3>
+                        <p style="color: black;">Bili_YKChengZi 主要分享 Windows 系统相关内容，包括系统优化、修改。我制作的内容仅供学习和技术交流使用，请大家支持正版软件。</p>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12 px-5 mb-5">
+                        <h3 class="tm-text-primary mb-4 tm-footer-title">快速导航</h3>
+                        <ul class="tm-footer-links">
+                            <li><a href="../index.html" style="color: black;">首页</a></li>
+                            <li><a href="../system.html" style="color: black;">操作系统</a></li>
+                            <li><a href="../online.html" style="color: black;">在线工具</a></li>
+                            <li><a href="../minecraftserver.html" style="color: black;">我的世界服务器</a></li>
+                            <li><a href="../about.html" style="color: black;">关于</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12 px-5 mb-5">
+                        <h3 class="tm-text-primary mb-4 tm-footer-title">联系我</h3>
+                        <ul class="tm-contacts">
+                            <li>
+                                <a href="#" style="color: black;">
+                                    <i class="fab fa-github mr-2"></i>
+                                    GitHub: Bili_YKChengZi
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" style="color: black;">
+                                    <i class="fas fa-play-circle mr-2"></i>
+                                    B站: Bili_YKChengZi
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" style="color: black;">
+                                    <i class="fas fa-envelope mr-2"></i>
+                                    邮箱: belugajia@outlook.com
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="../js/plugins.js"></script>
+    <script>
+        $(window).on("load", function() {
+            $("body").addClass("loaded");
+            initNavIndicator();
+        });
+
+        function initNavIndicator() {
+            const nav = document.getElementById('navbar-nav');
+            const indicator = document.getElementById('nav-indicator');
+            const links = nav.querySelectorAll('.nav-link');
+
+            function setIndicatorPosition(link) {
+                const rect = link.getBoundingClientRect();
+                const navRect = nav.getBoundingClientRect();
+                
+                indicator.style.left = (rect.left - navRect.left) + 'px';
+                indicator.style.width = rect.width + 'px';
+                
+                if (link.classList.contains('nav-link-1')) {
+                    indicator.style.backgroundColor = '#33CCFF';
+                } else if (link.classList.contains('nav-link-2')) {
+                    indicator.style.backgroundColor = '#FF6666';
+                } else if (link.classList.contains('nav-link-3')) {
+                    indicator.style.backgroundColor = '#33CC66';
+                } else if (link.classList.contains('nav-link-4')) {
+                    indicator.style.backgroundColor = '#CC66CC';
+                } else if (link.classList.contains('nav-link-5')) {
+                    indicator.style.backgroundColor = '#FF9933';
+                }
+            }
+
+            const activeLink = nav.querySelector('.active');
+            if (activeLink) {
+                setIndicatorPosition(activeLink);
+            }
+
+            links.forEach(link => {
+                link.addEventListener('mouseenter', function() {
+                    setIndicatorPosition(this);
+                });
+            });
+
+            nav.addEventListener('mouseleave', function() {
+                const activeLink = nav.querySelector('.active');
+                if (activeLink) {
+                    setIndicatorPosition(activeLink);
+                }
+            });
+        }
+
+        const nowBtn = document.getElementById('nowBtn');
+        const timestampInput = document.getElementById('timestampInput');
+        const toDateBtn = document.getElementById('toDateBtn');
+        const dateResult = document.getElementById('dateResult');
+        const copyDateBtn = document.getElementById('copyDateBtn');
+        const dateInput = document.getElementById('dateInput');
+        const toTimestampBtn = document.getElementById('toTimestampBtn');
+        const timestampResult = document.getElementById('timestampResult');
+        const copyTimestampBtn = document.getElementById('copyTimestampBtn');
+        const message = document.getElementById('message');
+
+        let currentDateResult = '';
+        let currentTimestampResult = '';
+
+        function showMessage(text, type) {
+            message.textContent = text;
+            message.className = 'alert alert-' + type;
+            message.style.display = 'block';
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 3000);
+        }
+
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            const milliseconds = String(date.getMilliseconds()).padStart(3, '0');
+            
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
+        }
+
+        nowBtn.addEventListener('click', () => {
+            const now = Date.now();
+            timestampInput.value = now;
+            const date = new Date(now);
+            dateInput.value = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
+            showMessage('已获取当前时间戳！', 'success');
+        });
+
+        toDateBtn.addEventListener('click', () => {
+            const timestamp = parseInt(timestampInput.value);
+            if (isNaN(timestamp)) {
+                showMessage('请输入有效的时间戳', 'warning');
+                return;
+            }
+            
+            try {
+                const date = new Date(timestamp);
+                if (isNaN(date.getTime())) {
+                    showMessage('无效的时间戳', 'danger');
+                    return;
+                }
+                
+                const formatted = formatDate(date);
+                currentDateResult = formatted;
+                dateResult.innerHTML = `
+                    <div><strong>标准格式：</strong>${formatted}</div>
+                    <div class="mt-2"><strong>UTC时间：</strong>${date.toUTCString()}</div>
+                    <div class="mt-2"><strong>ISO格式：</strong>${date.toISOString()}</div>
+                `;
+                showMessage('转换成功！', 'success');
+            } catch (e) {
+                showMessage('转换失败: ' + e.message, 'danger');
+            }
+        });
+
+        copyDateBtn.addEventListener('click', () => {
+            if (currentDateResult) {
+                navigator.clipboard.writeText(currentDateResult).then(() => {
+                    showMessage('复制成功！', 'success');
+                }).catch(() => {
+                    showMessage('复制失败，请手动复制', 'danger');
+                });
+            }
+        });
+
+        toTimestampBtn.addEventListener('click', () => {
+            const dateValue = dateInput.value;
+            if (!dateValue) {
+                showMessage('请选择日期时间', 'warning');
+                return;
+            }
+            
+            try {
+                const date = new Date(dateValue);
+                const timestamp = date.getTime();
+                currentTimestampResult = timestamp;
+                timestampResult.innerHTML = `
+                    <div><strong>毫秒时间戳：</strong>${timestamp}</div>
+                    <div class="mt-2"><strong>秒时间戳：</strong>${Math.floor(timestamp / 1000)}</div>
+                `;
+                showMessage('转换成功！', 'success');
+            } catch (e) {
+                showMessage('转换失败: ' + e.message, 'danger');
+            }
+        });
+
+        copyTimestampBtn.addEventListener('click', () => {
+            if (currentTimestampResult) {
+                navigator.clipboard.writeText(currentTimestampResult.toString()).then(() => {
+                    showMessage('复制成功！', 'success');
+                }).catch(() => {
+                    showMessage('复制失败，请手动复制', 'danger');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

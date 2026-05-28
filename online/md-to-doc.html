@@ -1,12 +1,15 @@
-<html lang="zh-CN"><head>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Markdown转换器 - 导出为Word文档或Excel表格，支持实时预览">
-    <title>Markdown转换器 - YKChengZi</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="css/templatemo-style.css">
-    <link rel="shortcut icon" type="image/png" href="img/CZ.ico">
+    <meta name="description" content="Markdown转文档 - 导出为Word文档或Excel表格，支持实时预览">
+    <meta name="keywords" content="Markdown,Word,Excel,转换器,在线工具,文档转换">
+    <title>Markdown转文档工具 - YKChengZi</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="../css/templatemo-style.css">
+    <link rel="shortcut icon" type="image/png" href="../img/CZ.ico">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
@@ -15,14 +18,14 @@
     
     <style>
         body {
-            background-image: url('img/wallpaper.png');
+            background-image: url('../img/wallpaper.png');
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
             background-repeat: no-repeat;
         }
         .tm-hero {
-            min-height: 300px;
+            min-height: 400px;
             background: transparent;
         }
         .tm-container-content {
@@ -49,6 +52,19 @@
         .btn-action {
             margin-right: 10px;
             margin-bottom: 10px;
+            font-size: 14px;
+            padding: 8px 16px;
+            height: 40px;
+            line-height: 24px;
+        }
+        .form-control-inline {
+            display: inline-block;
+            width: auto;
+            font-size: 14px;
+            padding: 8px 16px;
+            height: 40px;
+            vertical-align: middle;
+            margin-right: 10px;
         }
         .footer-divider {
             height: 2px;
@@ -56,13 +72,16 @@
             width: 100%;
         }
         .editor-container {
-            height: 500px;
+            height: 400px;
         }
-        
         .preview-container {
-            height: 500px;
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            background-color: #fff;
         }
-        
         .markdown-preview h1 {
             font-size: 2rem;
             font-weight: 700;
@@ -70,41 +89,34 @@
             padding-bottom: 0.5rem;
             border-bottom: 1px solid #e5e7eb;
         }
-        
         .markdown-preview h2 {
             font-size: 1.5rem;
             font-weight: 600;
             margin-top: 1.5rem;
             margin-bottom: 0.75rem;
         }
-        
         .markdown-preview h3 {
             font-size: 1.25rem;
             font-weight: 600;
             margin-top: 1.25rem;
             margin-bottom: 0.5rem;
         }
-        
         .markdown-preview p {
             margin-bottom: 1rem;
         }
-        
         .markdown-preview ul, 
         .markdown-preview ol {
             margin-bottom: 1rem;
             padding-left: 1.5rem;
         }
-        
         .markdown-preview ul li {
             list-style-type: disc;
             margin-bottom: 0.25rem;
         }
-        
         .markdown-preview ol li {
             list-style-type: decimal;
             margin-bottom: 0.25rem;
         }
-        
         .markdown-preview blockquote {
             border-left: 4px solid #e5e7eb;
             padding-left: 1rem;
@@ -112,7 +124,6 @@
             font-style: italic;
             margin-bottom: 1rem;
         }
-        
         .markdown-preview pre {
             background-color: #f3f4f6;
             padding: 1rem;
@@ -120,7 +131,6 @@
             overflow-x: auto;
             margin-bottom: 1rem;
         }
-        
         .markdown-preview code {
             font-family: 'Fira Code', monospace;
             background-color: #f3f4f6;
@@ -128,43 +138,36 @@
             border-radius: 0.25rem;
             font-size: 0.875rem;
         }
-        
         .markdown-preview pre code {
             background-color: transparent;
             padding: 0;
             border-radius: 0;
         }
-        
         .markdown-preview table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 1rem;
         }
-        
         .markdown-preview table th,
         .markdown-preview table td {
             border: 1px solid #e5e7eb;
             padding: 0.5rem;
             text-align: left;
         }
-        
         .markdown-preview table th {
             background-color: #f9fafb;
             font-weight: 600;
         }
-        
         .markdown-preview img {
             max-width: 100%;
             height: auto;
             margin-bottom: 1rem;
         }
-        
         .markdown-preview hr {
             border: 0;
             border-top: 1px solid #e5e7eb;
             margin: 1.5rem 0;
         }
-
         .nav-indicator {
             position: absolute;
             bottom: 0;
@@ -187,7 +190,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light" style="margin: 20px auto; max-width: calc(100% - 40px); border-radius: 8px; background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.3); padding-top: 0.5rem; padding-bottom: 0.5rem; position: relative; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4);">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="../index.html">
                 <i class="fas fa-seedling mr-2"></i>Bili_YKChengZi
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
@@ -196,19 +199,19 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto" id="navbar-nav" style="position: relative;">
                     <li class="nav-item">
-                        <a class="nav-link nav-link-1" href="index.html">首页</a>
+                        <a class="nav-link nav-link-1" href="../index.html">首页</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-2" href="system.html">操作系统</a>
+                        <a class="nav-link nav-link-2" href="../system.html">操作系统</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-4 active" href="online.html">在线工具</a>
+                        <a class="nav-link nav-link-4 active" href="../online.html">在线工具</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-5" href="minecraftserver.html">我的世界服务器</a>
+                        <a class="nav-link nav-link-5" href="../minecraftserver.html">我的世界服务器</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-3" href="about.html">关于</a>
+                        <a class="nav-link nav-link-3" href="../about.html">关于</a>
                     </li>
                     <div class="nav-indicator" id="nav-indicator"></div>
                 </ul>
@@ -224,114 +227,43 @@
     </div>
     
     <div class="container-fluid tm-container-content tm-mt-60">
-        <div class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-md flex items-center space-x-2">
-            <i class="fas fa-info-circle text-primary"></i>
-            <p class="text-sm text-gray-700">
-                <span class="font-weight-bold">提示：</span>Word导出完整文档，Excel仅导出表格
-            </p>
-        </div>
-        
-        <div class="row mb-4">
-            <div class="col-lg-6 mb-4">
-                <div class="card rounded-lg shadow-sm border">
-                    <div class="card-header bg-light border-bottom d-flex justify-content-between align-items-center">
-                        <h3 class="h6 mb-0 text-secondary d-flex align-items-center">
-                            <i class="fas fa-edit mr-2 text-gray-500"></i>
-                            Markdown编辑器
-                        </h3>
-                        <div class="d-flex align-items-center">
-                            <button id="clear-btn" class="btn btn-sm btn-link text-secondary">
-                                <i class="fas fa-trash-o mr-1"></i>
-                                <span>清空</span>
-                            </button>
-                            <button id="sample-btn" class="btn btn-sm btn-link text-secondary ml-2">
-                                <i class="fas fa-file-text-o mr-1"></i>
-                                <span>示例</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body p-0">
+        <div class="row mb-8">
+            <div class="col-12">
+                <h2 class="tm-text-primary mb-4">Markdown 转文档</h2>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <label for="markdown-input" class="form-label font-weight-bold">Markdown 编辑器</label>
                         <div class="editor-container">
-                            <textarea id="markdown-input" class="form-control w-100 h-100 p-4" style="font-family: monospace; font-size: 14px; resize: none; border: none;" placeholder="请输入Markdown内容..."></textarea>
+                            <textarea id="markdown-input" class="form-control" style="font-family: monospace; font-size: 14px; resize: none; border: 1px solid #ddd; height: 100%;" placeholder="请输入 Markdown 内容..."></textarea>
                         </div>
                     </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-6 mb-4">
-                <div class="card rounded-lg shadow-sm border">
-                    <div class="card-header bg-light border-bottom d-flex justify-content-between align-items-center">
-                        <h3 class="h6 mb-0 text-secondary d-flex align-items-center">
-                            <i class="fas fa-eye mr-2 text-gray-500"></i>
-                            实时预览
-                        </h3>
-                        <div class="d-flex align-items-center">
-                            <button id="preview-mode-toggle" class="btn btn-sm btn-link text-secondary d-none">
-                                <i class="fas fa-table mr-1"></i>
-                                <span>表格视图</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="preview-container p-4 overflow-auto">
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label font-weight-bold">实时预览</label>
+                        <div class="preview-container">
                             <div id="markdown-preview" class="markdown-preview"></div>
-                            <div id="table-preview" class="d-none"></div>
+                            <div id="table-preview" style="display: none;"></div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <div class="mb-4 d-flex flex-wrap align-items-center">
-            <select id="format-select" class="form-control w-auto mr-2">
-                <option value="word">导出为Word</option>
-                <option value="excel">导出为Excel</option>
-            </select>
-            <button id="export-btn" class="btn btn-primary btn-action">
-                <i class="fas fa-download mr-2"></i>
-                导出
-            </button>
-        </div>
-        
-        <div class="mt-4 card rounded-lg shadow-sm border p-4">
-            <h2 class="h5 text-dark mb-4">功能说明</h2>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <h3 class="h6 text-dark mb-2 d-flex align-items-center">
-                        <i class="fas fa-magic text-primary mr-2"></i>
-                        格式识别
-                    </h3>
-                    <p class="text-muted">
-                        根据内容自动识别导出格式，有表格推荐Excel，否则导出Word。
-                    </p>
+                
+                <div class="mb-4">
+                    <button id="export-btn" class="btn btn-primary btn-action">
+                        导出
+                    </button>
+                    <select id="format-select" class="form-control-inline">
+                        <option value="word">导出为 Word</option>
+                        <option value="excel">导出为 Excel</option>
+                    </select>
+                    <button id="sample-btn" class="btn btn-info btn-action">
+                        加载示例
+                    </button>
+                    <button id="clear-btn" class="btn btn-secondary btn-action">
+                        清空
+                    </button>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <h3 class="h6 text-dark mb-2 d-flex align-items-center">
-                        <i class="fas fa-file-excel-o text-success mr-2"></i>
-                        Excel导出
-                    </h3>
-                    <p class="text-muted">
-                        将Markdown表格转换为Excel，保留数据结构。
-                    </p>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <h3 class="h6 text-dark mb-2 d-flex align-items-center">
-                        <i class="fas fa-file-word-o text-primary mr-2"></i>
-                        Word导出
-                    </h3>
-                    <p class="text-muted">
-                        将Markdown转换为Word文档，保留标题、列表、代码等格式。
-                    </p>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <h3 class="h6 text-dark mb-2 d-flex align-items-center">
-                        <i class="fas fa-eye text-secondary mr-2"></i>
-                        实时预览
-                    </h3>
-                    <p class="text-muted">
-                        输入内容时实时预览，直观查看效果。
-                    </p>
-                </div>
+                
+                <div id="message" class="alert" role="alert" style="display: none;"></div>
             </div>
         </div>
         
@@ -346,11 +278,11 @@
                     <div class="col-lg-3 col-md-6 col-12 px-5 mb-5">
                         <h3 class="tm-text-primary mb-4 tm-footer-title">快速导航</h3>
                         <ul class="tm-footer-links">
-                            <li><a href="index.html" style="color: black;">首页</a></li>
-                            <li><a href="system.html" style="color: black;">操作系统</a></li>
-                            <li><a href="online.html" style="color: black;">在线工具</a></li>
-                            <li><a href="minecraftserver.html" style="color: black;">我的世界服务器</a></li>
-                            <li><a href="about.html" style="color: black;">关于</a></li>
+                            <li><a href="../index.html" style="color: black;">首页</a></li>
+                            <li><a href="../system.html" style="color: black;">操作系统</a></li>
+                            <li><a href="../online.html" style="color: black;">在线工具</a></li>
+                            <li><a href="../minecraftserver.html" style="color: black;">我的世界服务器</a></li>
+                            <li><a href="../about.html" style="color: black;">关于</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-3 col-md-6 col-12 px-5 mb-5">
@@ -381,7 +313,7 @@
         </footer>
     </div>
 
-    <script src="js/plugins.js"></script>
+    <script src="../js/plugins.js"></script>
     <script>
         const markdownInput = document.getElementById('markdown-input');
         const markdownPreview = document.getElementById('markdown-preview');
@@ -390,7 +322,7 @@
         const formatSelect = document.getElementById('format-select');
         const clearBtn = document.getElementById('clear-btn');
         const sampleBtn = document.getElementById('sample-btn');
-        const previewModeToggle = document.getElementById('preview-mode-toggle');
+        const message = document.getElementById('message');
         
         const sampleMarkdown = `# Markdown示例文档
 
@@ -434,6 +366,15 @@ function hello() {
 感谢使用！
 > Made By Bili_YKChengZi`;
         
+        function showMessage(text, type) {
+            message.textContent = text;
+            message.className = 'alert alert-' + type;
+            message.style.display = 'block';
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 3000);
+        }
+        
         function init() {
             marked.setOptions({
                 breaks: true,
@@ -446,116 +387,25 @@ function hello() {
             exportBtn.addEventListener('click', handleExport);
             clearBtn.addEventListener('click', handleClear);
             sampleBtn.addEventListener('click', handleSample);
-            previewModeToggle.addEventListener('click', handlePreviewModeToggle);
             
             renderMarkdown();
-            checkForTables();
         }
         
         function handleMarkdownInput() {
             renderMarkdown();
-            checkForTables();
         }
         
         function renderMarkdown() {
             const markdown = markdownInput.value.trim();
             
             if (markdown === '') {
-                markdownPreview.innerHTML = '<div class="text-center text-gray-400 mt-12"><i class="fa fa-file-text-o text-4xl mb-3"></i><p>请在左侧输入Markdown内容</p></div>';
-                exportBtn.disabled = true;
+                markdownPreview.innerHTML = '<div class="text-center text-muted mt-5"><p>请输入 Markdown 内容</p></div>';
                 return;
             }
             
-            exportBtn.disabled = false;
             const html = marked.parse(markdown);
             const sanitizedHtml = DOMPurify.sanitize(html);
             markdownPreview.innerHTML = sanitizedHtml;
-            renderTablePreview(markdown);
-        }
-        
-        function renderTablePreview(markdown) {
-            const tables = extractTables(markdown);
-            
-            if (tables.length === 0) {
-                tablePreview.innerHTML = '<div class="text-center text-gray-400 mt-12"><i class="fa fa-table text-4xl mb-3"></i><p>未检测到表格内容</p></div>';
-                return;
-            }
-            
-            let html = '<div class="space-y-6">';
-            tables.forEach((table, index) => {
-                html += `
-                    <div class="bg-white p-4 rounded-lg border border-gray-200">
-                        <h3 class="text-lg font-medium text-gray-700 mb-3">表格 ${index + 1}</h3>
-                        <div class="overflow-x-auto">
-                            ${table}
-                        </div>
-                    </div>
-                `;
-            });
-            html += '</div>';
-            tablePreview.innerHTML = html;
-        }
-        
-        function extractTables(markdown) {
-            const tableRegex = /\|.*\|(?:\r?\n\|.*\|)+/g;
-            const tables = [];
-            let match;
-            while ((match = tableRegex.exec(markdown)) !== null) {
-                const html = marked.parse(match[0]);
-                tables.push(html);
-            }
-            return tables;
-        }
-        
-        function checkForTables() {
-            const markdown = markdownInput.value.trim();
-            const hasTables = /\|.*\|(?:\r?\n\|.*\|)+/.test(markdown);
-            
-            if (hasTables) {
-                previewModeToggle.classList.remove('hidden');
-            } else {
-                previewModeToggle.classList.add('hidden');
-                markdownPreview.classList.remove('hidden');
-                tablePreview.classList.add('hidden');
-            }
-        }
-        
-        function handleExport() {
-            const markdown = markdownInput.value.trim();
-            
-            if (markdown === '') {
-                alert('请输入Markdown内容');
-                return;
-            }
-            
-            const selectedFormat = formatSelect.value;
-            if (selectedFormat === 'excel') {
-                exportToExcel(markdown);
-            } else {
-                exportToWord(markdown);
-            }
-        }
-        
-        function exportToExcel(markdown) {
-            try {
-                const tables = extractTablesFromMarkdown(markdown);
-                
-                if (tables.length === 0) {
-                    alert('未检测到表格内容');
-                    return;
-                }
-                
-                const wb = XLSX.utils.book_new();
-                tables.forEach((table, index) => {
-                    const ws = XLSX.utils.aoa_to_sheet(table);
-                    XLSX.utils.book_append_sheet(wb, ws, `Sheet${index + 1}`);
-                });
-                
-                XLSX.writeFile(wb, 'markdown-to-excel.xlsx');
-            } catch (error) {
-                console.error('导出Excel失败:', error);
-                alert('导出Excel失败，请重试');
-            }
         }
         
         function extractTablesFromMarkdown(markdown) {
@@ -574,6 +424,45 @@ function hello() {
                 tables.push(tableData);
             }
             return tables;
+        }
+        
+        function handleExport() {
+            const markdown = markdownInput.value.trim();
+            
+            if (markdown === '') {
+                showMessage('请输入 Markdown 内容', 'warning');
+                return;
+            }
+            
+            const selectedFormat = formatSelect.value;
+            if (selectedFormat === 'excel') {
+                exportToExcel(markdown);
+            } else {
+                exportToWord(markdown);
+            }
+        }
+        
+        function exportToExcel(markdown) {
+            try {
+                const tables = extractTablesFromMarkdown(markdown);
+                
+                if (tables.length === 0) {
+                    showMessage('未检测到表格内容', 'warning');
+                    return;
+                }
+                
+                const wb = XLSX.utils.book_new();
+                tables.forEach((table, index) => {
+                    const ws = XLSX.utils.aoa_to_sheet(table);
+                    XLSX.utils.book_append_sheet(wb, ws, 'Sheet' + (index + 1));
+                });
+                
+                XLSX.writeFile(wb, 'markdown-to-excel.xlsx');
+                showMessage('Excel 导出成功！', 'success');
+            } catch (error) {
+                console.error('导出Excel失败:', error);
+                showMessage('导出 Excel 失败，请重试', 'danger');
+            }
         }
         
         function exportToWord(markdown) {
@@ -607,9 +496,10 @@ function hello() {
                 
                 const blob = htmlDocx.asBlob(styledHtml);
                 saveAs(blob, 'markdown-to-word.docx');
+                showMessage('Word 导出成功！', 'success');
             } catch (error) {
                 console.error('导出Word失败:', error);
-                alert('导出Word失败，请重试');
+                showMessage('导出 Word 失败，请重试', 'danger');
             }
         }
         
@@ -618,7 +508,6 @@ function hello() {
             if (confirm('确定要清空吗？')) {
                 markdownInput.value = '';
                 renderMarkdown();
-                checkForTables();
             }
         }
         
@@ -629,24 +518,6 @@ function hello() {
             }
         }
         
-        function handlePreviewModeToggle() {
-            const icon = previewModeToggle.querySelector('i');
-            if (markdownPreview.classList.contains('hidden')) {
-                markdownPreview.classList.remove('hidden');
-                tablePreview.classList.add('hidden');
-                icon.classList.remove('fa-file-text-o');
-                icon.classList.add('fa-table');
-                previewModeToggle.querySelector('span').textContent = '表格视图';
-            } else {
-                markdownPreview.classList.add('hidden');
-                tablePreview.classList.remove('hidden');
-                icon.classList.remove('fa-table');
-                icon.classList.add('fa-file-text-o');
-                previewModeToggle.querySelector('span').textContent = '文档视图';
-            }
-        }
-        
-        // 导航指示函数
         function initNavIndicator() {
             const nav = document.getElementById('navbar-nav');
             const indicator = document.getElementById('nav-indicator');
@@ -691,11 +562,11 @@ function hello() {
             });
         }
         
-        // 使用jQuery的load事件
         $(window).on("load", function() {
-            $('body').addClass('loaded');
+            $("body").addClass("loaded");
             init();
             initNavIndicator();
         });
     </script>
-</body></html>
+</body>
+</html>

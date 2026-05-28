@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="颜色工具 - 支持RGB与HEX互转，颜色选择器，预览颜色">
+    <title>颜色工具</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="../css/templatemo-style.css">
+    <link rel="shortcut icon" type="image/png" href="../img/CZ.ico">
+    <style>
+        body {
+            background-image: url('../img/wallpaper.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .tm-hero {
+            min-height: 400px;
+            background: transparent;
+        }
+        .tm-container-content {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 8px;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: calc(100% - 40px);
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15),
+                        0 4px 16px rgba(0, 0, 0, 0.1),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+        .tm-hero .display-4 {
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5),
+                        0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .tm-hero .text-white {
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .btn-action {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .footer-divider {
+            height: 2px;
+            background-color: rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+        .nav-indicator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        .nav-link {
+            border-bottom: none !important;
+        }
+        .color-preview {
+            width: 100%;
+            height: 150px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+            background-color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light" style="margin: 20px auto; max-width: calc(100% - 40px); border-radius: 8px; background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.3); padding-top: 0.5rem; padding-bottom: 0.5rem; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4);">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="../index.html">
+                <i class="fas fa-seedling mr-2"></i>Bili_YKChengZi
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto" id="navbar-nav" style="position: relative;">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-1" href="../index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-2" href="../system.html">操作系统</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-4 active" href="../online.html">在线工具</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-5" href="../minecraftserver.html">我的世界服务器</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-3" href="../about.html">关于</a>
+                    </li>
+                    <div class="nav-indicator" id="nav-indicator"></div>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="tm-hero d-flex justify-content-center align-items-center">
+        <div class="text-center mb-5">
+            <h1 class="text-white mb-4 display-4">颜色工具</h1>
+            <p class="text-white lead mb-5 max-w-2xl mx-auto">RGB与HEX互转，颜色选择器，预览颜色！</p>
+        </div>
+    </div>
+
+    <div class="container-fluid tm-container-content tm-mt-60">
+        <div class="row mb-8">
+            <div class="col-12">
+                <h2 class="tm-text-primary mb-4">颜色工具</h2>
+                
+                <div id="colorPreview" class="color-preview">
+                    #3498db - RGB(52, 152, 219)
+                </div>
+                
+                <div class="mb-4">
+                    <label for="colorPicker" class="form-label font-weight-bold">选择颜色</label>
+                    <input type="color" id="colorPicker" class="form-control form-control-color" value="#3498db" style="height: 50px;">
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h4 class="tm-text-primary mb-3">HEX格式</h4>
+                        <div class="input-group mb-3">
+                            <input type="text" id="hexInput" class="form-control" value="#3498db" placeholder="#000000">
+                            <button id="hexToRgbBtn" class="btn btn-primary">
+                                <i class="fas fa-arrow-right mr-2"></i>转换为RGB
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="tm-text-primary mb-3">RGB格式</h4>
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <label class="form-label font-weight-bold">R</label>
+                                <input type="number" id="redInput" class="form-control" value="52" min="0" max="255">
+                            </div>
+                            <div class="col-4">
+                                <label class="form-label font-weight-bold">G</label>
+                                <input type="number" id="greenInput" class="form-control" value="152" min="0" max="255">
+                            </div>
+                            <div class="col-4">
+                                <label class="form-label font-weight-bold">B</label>
+                                <input type="number" id="blueInput" class="form-control" value="219" min="0" max="255">
+                            </div>
+                        </div>
+                        <button id="rgbToHexBtn" class="btn btn-success">
+                            <i class="fas fa-arrow-right mr-2"></i>转换为HEX
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <button id="copyHexBtn" class="btn btn-secondary btn-action">
+                        <i class="fas fa-copy mr-2"></i>复制HEX
+                    </button>
+                    <button id="copyRgbBtn" class="btn btn-secondary btn-action">
+                        <i class="fas fa-copy mr-2"></i>复制RGB
+                    </button>
+                    <button id="resetBtn" class="btn btn-danger btn-action">
+                        <i class="fas fa-undo mr-2"></i>重置
+                    </button>
+                </div>
+                
+                <div id="message" class="alert" role="alert" style="display: none;"></div>
+            </div>
+        </div>
+        
+        <footer class="pt-5 pb-3 tm-footer" style="background: transparent;">
+            <div class="container-fluid tm-container-small">
+                <div class="footer-divider mb-5"></div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-12 px-5 mb-5">
+                        <h3 class="tm-text-primary mb-4 tm-footer-title">关于 Bili_YKChengZi</h3>
+                        <p style="color: black;">Bili_YKChengZi 主要分享 Windows 系统相关内容，包括系统优化、修改。我制作的内容仅供学习和技术交流使用，请大家支持正版软件。</p>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12 px-5 mb-5">
+                        <h3 class="tm-text-primary mb-4 tm-footer-title">快速导航</h3>
+                        <ul class="tm-footer-links">
+                            <li><a href="../index.html" style="color: black;">首页</a></li>
+                            <li><a href="../system.html" style="color: black;">操作系统</a></li>
+                            <li><a href="../online.html" style="color: black;">在线工具</a></li>
+                            <li><a href="../minecraftserver.html" style="color: black;">我的世界服务器</a></li>
+                            <li><a href="../about.html" style="color: black;">关于</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12 px-5 mb-5">
+                        <h3 class="tm-text-primary mb-4 tm-footer-title">联系我</h3>
+                        <ul class="tm-contacts">
+                            <li>
+                                <a href="#" style="color: black;">
+                                    <i class="fab fa-github mr-2"></i>
+                                    GitHub: Bili_YKChengZi
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" style="color: black;">
+                                    <i class="fas fa-play-circle mr-2"></i>
+                                    B站: Bili_YKChengZi
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" style="color: black;">
+                                    <i class="fas fa-envelope mr-2"></i>
+                                    邮箱: belugajia@outlook.com
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="../js/plugins.js"></script>
+    <script>
+        $(window).on("load", function() {
+            $("body").addClass("loaded");
+            initNavIndicator();
+        });
+
+        function initNavIndicator() {
+            const nav = document.getElementById('navbar-nav');
+            const indicator = document.getElementById('nav-indicator');
+            const links = nav.querySelectorAll('.nav-link');
+
+            function setIndicatorPosition(link) {
+                const rect = link.getBoundingClientRect();
+                const navRect = nav.getBoundingClientRect();
+                
+                indicator.style.left = (rect.left - navRect.left) + 'px';
+                indicator.style.width = rect.width + 'px';
+                
+                if (link.classList.contains('nav-link-1')) {
+                    indicator.style.backgroundColor = '#33CCFF';
+                } else if (link.classList.contains('nav-link-2')) {
+                    indicator.style.backgroundColor = '#FF6666';
+                } else if (link.classList.contains('nav-link-3')) {
+                    indicator.style.backgroundColor = '#33CC66';
+                } else if (link.classList.contains('nav-link-4')) {
+                    indicator.style.backgroundColor = '#CC66CC';
+                } else if (link.classList.contains('nav-link-5')) {
+                    indicator.style.backgroundColor = '#FF9933';
+                }
+            }
+
+            const activeLink = nav.querySelector('.active');
+            if (activeLink) {
+                setIndicatorPosition(activeLink);
+            }
+
+            links.forEach(link => {
+                link.addEventListener('mouseenter', function() {
+                    setIndicatorPosition(this);
+                });
+            });
+
+            nav.addEventListener('mouseleave', function() {
+                const activeLink = nav.querySelector('.active');
+                if (activeLink) {
+                    setIndicatorPosition(activeLink);
+                }
+            });
+        }
+
+        const colorPicker = document.getElementById('colorPicker');
+        const colorPreview = document.getElementById('colorPreview');
+        const hexInput = document.getElementById('hexInput');
+        const redInput = document.getElementById('redInput');
+        const greenInput = document.getElementById('greenInput');
+        const blueInput = document.getElementById('blueInput');
+        const hexToRgbBtn = document.getElementById('hexToRgbBtn');
+        const rgbToHexBtn = document.getElementById('rgbToHexBtn');
+        const copyHexBtn = document.getElementById('copyHexBtn');
+        const copyRgbBtn = document.getElementById('copyRgbBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const message = document.getElementById('message');
+
+        function showMessage(text, type) {
+            message.textContent = text;
+            message.className = 'alert alert-' + type;
+            message.style.display = 'block';
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 3000);
+        }
+
+        function updatePreview(hex, r, g, b) {
+            colorPreview.style.backgroundColor = hex;
+            colorPreview.textContent = `${hex.toUpperCase()} - RGB(${r}, ${g}, ${b})`;
+            colorPicker.value = hex;
+        }
+
+        function hexToRgb(hex) {
+            hex = hex.replace('#', '');
+            if (hex.length === 3) {
+                hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+            }
+            const bigint = parseInt(hex, 16);
+            return {
+                r: (bigint >> 16) & 255,
+                g: (bigint >> 8) & 255,
+                b: bigint & 255
+            };
+        }
+
+        function rgbToHex(r, g, b) {
+            return '#' + [r, g, b].map(x => {
+                const hex = x.toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+            }).join('');
+        }
+
+        colorPicker.addEventListener('input', () => {
+            const hex = colorPicker.value;
+            const rgb = hexToRgb(hex);
+            hexInput.value = hex;
+            redInput.value = rgb.r;
+            greenInput.value = rgb.g;
+            blueInput.value = rgb.b;
+            updatePreview(hex, rgb.r, rgb.g, rgb.b);
+        });
+
+        hexToRgbBtn.addEventListener('click', () => {
+            let hex = hexInput.value.trim();
+            if (!hex.startsWith('#')) {
+                hex = '#' + hex;
+            }
+            if (!/^#[0-9A-Fa-f]{6}$/.test(hex) && !/^#[0-9A-Fa-f]{3}$/.test(hex)) {
+                showMessage('请输入有效的HEX颜色', 'warning');
+                return;
+            }
+            const rgb = hexToRgb(hex);
+            redInput.value = rgb.r;
+            greenInput.value = rgb.g;
+            blueInput.value = rgb.b;
+            updatePreview(hex, rgb.r, rgb.g, rgb.b);
+            showMessage('HEX转RGB成功！', 'success');
+        });
+
+        rgbToHexBtn.addEventListener('click', () => {
+            const r = parseInt(redInput.value);
+            const g = parseInt(greenInput.value);
+            const b = parseInt(blueInput.value);
+            
+            if (isNaN(r) || isNaN(g) || isNaN(b) || r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) {
+                showMessage('请输入0-255之间的RGB值', 'warning');
+                return;
+            }
+            
+            const hex = rgbToHex(r, g, b);
+            hexInput.value = hex;
+            updatePreview(hex, r, g, b);
+            showMessage('RGB转HEX成功！', 'success');
+        });
+
+        copyHexBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(hexInput.value).then(() => {
+                showMessage('HEX复制成功！', 'success');
+            }).catch(() => {
+                showMessage('复制失败，请手动复制', 'danger');
+            });
+        });
+
+        copyRgbBtn.addEventListener('click', () => {
+            const rgbText = `rgb(${redInput.value}, ${greenInput.value}, ${blueInput.value})`;
+            navigator.clipboard.writeText(rgbText).then(() => {
+                showMessage('RGB复制成功！', 'success');
+            }).catch(() => {
+                showMessage('复制失败，请手动复制', 'danger');
+            });
+        });
+
+        resetBtn.addEventListener('click', () => {
+            hexInput.value = '#3498db';
+            redInput.value = 52;
+            greenInput.value = 152;
+            blueInput.value = 219;
+            updatePreview('#3498db', 52, 152, 219);
+            message.style.display = 'none';
+        });
+    </script>
+</body>
+</html>

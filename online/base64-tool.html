@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Base64编码/解码工具 - 支持文本和图片的编码与解码">
+    <title>Base64编码/解码工具</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="../css/templatemo-style.css">
+    <link rel="shortcut icon" type="image/png" href="../img/CZ.ico">
+    <style>
+        body {
+            background-image: url('../img/wallpaper.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .tm-hero {
+            min-height: 400px;
+            background: transparent;
+        }
+        .tm-container-content {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 8px;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: calc(100% - 40px);
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15),
+                        0 4px 16px rgba(0, 0, 0, 0.1),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+        .tm-hero .display-4 {
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5),
+                        0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .tm-hero .text-white {
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .base64-input, .base64-output {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+            min-height: 200px;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            border: 1px solid #444;
+        }
+        .base64-input:focus, .base64-output:focus {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            border-color: #007acc;
+        }
+        .btn-action {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .footer-divider {
+            height: 2px;
+            background-color: rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+        .nav-indicator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        .nav-link {
+            border-bottom: none !important;
+        }
+        .image-preview {
+            max-width: 100%;
+            max-height: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            background: white;
+        }
+        .tab-content {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light" style="margin: 20px auto; max-width: calc(100% - 40px); border-radius: 8px; background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.3); padding-top: 0.5rem; padding-bottom: 0.5rem; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4);">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="../index.html">
+                <i class="fas fa-seedling mr-2"></i>Bili_YKChengZi
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto" id="navbar-nav" style="position: relative;">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-1" href="../index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-2" href="../system.html">操作系统</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-4 active" href="../online.html">在线工具</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-5" href="../minecraftserver.html">我的世界服务器</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-3" href="../about.html">关于</a>
+                    </li>
+                    <div class="nav-indicator" id="nav-indicator"></div>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="tm-hero d-flex justify-content-center align-items-center">
+        <div class="text-center mb-5">
+            <h1 class="text-white mb-4 display-4">Base64编码/解码工具</h1>
+            <p class="text-white lead mb-5 max-w-2xl mx-auto">快速进行Base64编码和解码，支持文本和图片！</p>
+        </div>
+    </div>
+
+    <div class="container-fluid tm-container-content tm-mt-60">
+        <div class="row mb-8">
+            <div class="col-12">
+                <ul class="nav nav-tabs" id="base64Tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="text-tab" data-toggle="tab" href="#text" role="tab">文本处理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="image-tab" data-toggle="tab" href="#image" role="tab">图片处理</a>
+                    </li>
+                </ul>
+                
+                <div class="tab-content" id="base64TabContent">
+                    <div class="tab-pane fade show active" id="text" role="tabpanel">
+                        <h2 class="tm-text-primary mb-4 mt-4">文本Base64</h2>
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="textInput" class="form-label font-weight-bold">输入文本</label>
+                                <textarea id="textInput" class="form-control base64-input" placeholder="请输入要编码/解码的文本..."></textarea>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label for="textOutput" class="form-label font-weight-bold">输出结果</label>
+                                <textarea id="textOutput" class="form-control base64-output" readonly placeholder="结果将显示在这里..."></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <button id="encodeTextBtn" class="btn btn-primary btn-action">
+                                <i class="fas fa-lock mr-2"></i>编码
+                            </button>
+                            <button id="decodeTextBtn" class="btn btn-success btn-action">
+                                <i class="fas fa-unlock mr-2"></i>解码
+                            </button>
+                            <button id="copyTextBtn" class="btn btn-secondary btn-action">
+                                <i class="fas fa-copy mr-2"></i>复制结果
+                            </button>
+                            <button id="clearTextBtn" class="btn btn-danger btn-action">
+                                <i class="fas fa-trash mr-2"></i>清空
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="image" role="tabpanel">
+                        <h2 class="tm-text-primary mb-4 mt-4">图片Base64</h2>
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="imageInput" class="form-label font-weight-bold">上传图片</label>
+                                <input type="file" id="imageInput" class="form-control" accept="image/*">
+                                <div id="imagePreviewContainer" class="mt-3" style="display: none;">
+                                    <img id="imagePreview" class="image-preview" alt="预览图片">
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label for="imageOutput" class="form-label font-weight-bold">Base64结果</label>
+                                <textarea id="imageOutput" class="form-control base64-output" readonly placeholder="Base64字符串将显示在这里..."></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <button id="encodeImageBtn" class="btn btn-primary btn-action">
+                                <i class="fas fa-image mr-2"></i>图片转Base64
+                            </button>
+                            <button id="decodeImageBtn" class="btn btn-success btn-action">
+                                <i class="fas fa-file-image mr-2"></i>Base64转图片
+                            </button>
+                            <button id="copyImageBtn" class="btn btn-secondary btn-action">
+                                <i class="fas fa-copy mr-2"></i>复制结果
+                            </button>
+                            <button id="downloadImageBtn" class="btn btn-info btn-action" style="display: none;">
+                                <i class="fas fa-download mr-2"></i>下载图片
+                            </button>
+                            <button id="clearImageBtn" class="btn btn-danger btn-action">
+                                <i class="fas fa-trash mr-2"></i>清空
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="message" class="alert" role="alert" style="display: none;"></div>
+            </div>
+        </div>
+        
+        <footer class="pt-5 pb-3 tm-footer" style="background: transparent;">
+            <div class="container-fluid tm-container-small">
+                <div class="footer-divider mb-5"></div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-12 px-5 mb-5">
+                        <h3 class="tm-text-primary mb-4 tm-footer-title">关于 Bili_YKChengZi</h3>
+                        <p style="color: black;">Bili_YKChengZi 主要分享 Windows 系统相关内容，包括系统优化、修改。我制作的内容仅供学习和技术交流使用，请大家支持正版软件。</p>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12 px-5 mb-5">
+                        <h3 class="tm-text-primary mb-4 tm-footer-title">快速导航</h3>
+                        <ul class="tm-footer-links">
+                            <li><a href="../index.html" style="color: black;">首页</a></li>
+                            <li><a href="../system.html" style="color: black;">操作系统</a></li>
+                            <li><a href="../online.html" style="color: black;">在线工具</a></li>
+                            <li><a href="../minecraftserver.html" style="color: black;">我的世界服务器</a></li>
+                            <li><a href="../about.html" style="color: black;">关于</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12 px-5 mb-5">
+                        <h3 class="tm-text-primary mb-4 tm-footer-title">联系我</h3>
+                        <ul class="tm-contacts">
+                            <li>
+                                <a href="#" style="color: black;">
+                                    <i class="fab fa-github mr-2"></i>
+                                    GitHub: Bili_YKChengZi
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" style="color: black;">
+                                    <i class="fas fa-play-circle mr-2"></i>
+                                    B站: Bili_YKChengZi
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" style="color: black;">
+                                    <i class="fas fa-envelope mr-2"></i>
+                                    邮箱: belugajia@outlook.com
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="../js/plugins.js"></script>
+    <script>
+        $(window).on("load", function() {
+            $("body").addClass("loaded");
+            initNavIndicator();
+        });
+
+        function initNavIndicator() {
+            const nav = document.getElementById('navbar-nav');
+            const indicator = document.getElementById('nav-indicator');
+            const links = nav.querySelectorAll('.nav-link');
+
+            function setIndicatorPosition(link) {
+                const rect = link.getBoundingClientRect();
+                const navRect = nav.getBoundingClientRect();
+                
+                indicator.style.left = (rect.left - navRect.left) + 'px';
+                indicator.style.width = rect.width + 'px';
+                
+                if (link.classList.contains('nav-link-1')) {
+                    indicator.style.backgroundColor = '#33CCFF';
+                } else if (link.classList.contains('nav-link-2')) {
+                    indicator.style.backgroundColor = '#FF6666';
+                } else if (link.classList.contains('nav-link-3')) {
+                    indicator.style.backgroundColor = '#33CC66';
+                } else if (link.classList.contains('nav-link-4')) {
+                    indicator.style.backgroundColor = '#CC66CC';
+                } else if (link.classList.contains('nav-link-5')) {
+                    indicator.style.backgroundColor = '#FF9933';
+                }
+            }
+
+            const activeLink = nav.querySelector('.active');
+            if (activeLink) {
+                setIndicatorPosition(activeLink);
+            }
+
+            links.forEach(link => {
+                link.addEventListener('mouseenter', function() {
+                    setIndicatorPosition(this);
+                });
+            });
+
+            nav.addEventListener('mouseleave', function() {
+                const activeLink = nav.querySelector('.active');
+                if (activeLink) {
+                    setIndicatorPosition(activeLink);
+                }
+            });
+        }
+
+        const textInput = document.getElementById('textInput');
+        const textOutput = document.getElementById('textOutput');
+        const encodeTextBtn = document.getElementById('encodeTextBtn');
+        const decodeTextBtn = document.getElementById('decodeTextBtn');
+        const copyTextBtn = document.getElementById('copyTextBtn');
+        const clearTextBtn = document.getElementById('clearTextBtn');
+        
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+        const imageOutput = document.getElementById('imageOutput');
+        const encodeImageBtn = document.getElementById('encodeImageBtn');
+        const decodeImageBtn = document.getElementById('decodeImageBtn');
+        const copyImageBtn = document.getElementById('copyImageBtn');
+        const downloadImageBtn = document.getElementById('downloadImageBtn');
+        const clearImageBtn = document.getElementById('clearImageBtn');
+        
+        const message = document.getElementById('message');
+        
+        let currentImageData = null;
+
+        function showMessage(text, type) {
+            message.textContent = text;
+            message.className = 'alert alert-' + type;
+            message.style.display = 'block';
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 3000);
+        }
+
+        encodeTextBtn.addEventListener('click', () => {
+            try {
+                const encoded = btoa(unescape(encodeURIComponent(textInput.value)));
+                textOutput.value = encoded;
+                showMessage('编码成功！', 'success');
+            } catch (e) {
+                showMessage('编码失败: ' + e.message, 'danger');
+            }
+        });
+
+        decodeTextBtn.addEventListener('click', () => {
+            try {
+                const decoded = decodeURIComponent(escape(atob(textInput.value)));
+                textOutput.value = decoded;
+                showMessage('解码成功！', 'success');
+            } catch (e) {
+                showMessage('解码失败: ' + e.message, 'danger');
+            }
+        });
+
+        copyTextBtn.addEventListener('click', () => {
+            if (textOutput.value) {
+                navigator.clipboard.writeText(textOutput.value).then(() => {
+                    showMessage('复制成功！', 'success');
+                }).catch(() => {
+                    showMessage('复制失败，请手动复制', 'danger');
+                });
+            }
+        });
+
+        clearTextBtn.addEventListener('click', () => {
+            textInput.value = '';
+            textOutput.value = '';
+            message.style.display = 'none';
+        });
+
+        imageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    imagePreview.src = event.target.result;
+                    imagePreviewContainer.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        encodeImageBtn.addEventListener('click', () => {
+            const file = imageInput.files[0];
+            if (!file) {
+                showMessage('请先选择图片！', 'warning');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                imageOutput.value = event.target.result;
+                currentImageData = event.target.result;
+                showMessage('图片转Base64成功！', 'success');
+            };
+            reader.readAsDataURL(file);
+        });
+
+        decodeImageBtn.addEventListener('click', () => {
+            const base64 = imageOutput.value;
+            if (!base64) {
+                showMessage('请先输入Base64字符串！', 'warning');
+                return;
+            }
+            
+            try {
+                imagePreview.src = base64;
+                imagePreviewContainer.style.display = 'block';
+                currentImageData = base64;
+                downloadImageBtn.style.display = 'inline-block';
+                showMessage('Base64转图片成功！', 'success');
+            } catch (e) {
+                showMessage('转换失败: ' + e.message, 'danger');
+            }
+        });
+
+        copyImageBtn.addEventListener('click', () => {
+            if (imageOutput.value) {
+                navigator.clipboard.writeText(imageOutput.value).then(() => {
+                    showMessage('复制成功！', 'success');
+                }).catch(() => {
+                    showMessage('复制失败，请手动复制', 'danger');
+                });
+            }
+        });
+
+        downloadImageBtn.addEventListener('click', () => {
+            if (currentImageData) {
+                const link = document.createElement('a');
+                link.href = currentImageData;
+                link.download = 'decoded-image.png';
+                link.click();
+                showMessage('下载成功！', 'success');
+            }
+        });
+
+        clearImageBtn.addEventListener('click', () => {
+            imageInput.value = '';
+            imagePreviewContainer.style.display = 'none';
+            imageOutput.value = '';
+            downloadImageBtn.style.display = 'none';
+            currentImageData = null;
+            message.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
