@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="UUID生成器 - 支持批量生成和多种格式">
-    <title>UUID生成器</title>
+    <meta name="description" content="动态页面测试">
+    <title>动态页面测试</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../fontawesome/css/all.min.css">
     <link rel="stylesheet" href="../css/templatemo-style.css">
@@ -42,37 +42,9 @@
         .tm-hero .text-white {
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
-        .uuid-output {
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 14px;
-            line-height: 1.6;
-            resize: vertical;
-            min-height: 300px;
-            background-color: #1e1e1e;
-            color: #d4d4d4;
-            border: 1px solid #444;
-        }
-        .uuid-output:focus {
-            background-color: #1e1e1e;
-            color: #d4d4d4;
-            border-color: #007acc;
-        }
-        .btn-action {
-            margin-right: 10px;
-            margin-bottom: 10px;
-            font-size: 14px;
-            padding: 8px 16px;
-            height: 40px;
-            line-height: 24px;
-        }
-        .form-control-inline {
-            display: inline-block;
-            width: auto;
-            font-size: 14px;
-            padding: 8px 16px;
-            height: 40px;
-            vertical-align: middle;
-            margin-right: 10px;
+        .card {
+            margin-bottom: 20px;
+            border-radius: 8px;
         }
         .footer-divider {
             height: 2px;
@@ -90,6 +62,16 @@
         .nav-link {
             border-bottom: none !important;
         }
+        .random-content {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007acc;
+            text-align: center;
+            padding: 40px;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
@@ -99,7 +81,7 @@
         <div class="loader-section section-right"></div>
     </div>
 
-    <nav class="navbar navbar-expand-lg navbar-light" style="margin: 20px auto; max-width: calc(100% - 40px); border-radius: 8px; background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.3); padding-top: 0.5rem; padding-bottom: 0.5rem; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4);">
+    <nav class="navbar navbar-expand-lg navbar-light" style="margin: 20px auto; max-width: calc(100% - 40px); border-radius: 8px; background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.3); padding-top: 0.5rem; padding-bottom: 0.5rem; position: relative; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4);">
         <div class="container-fluid">
             <a class="navbar-brand" href="../index.html">
                 <i class="fas fa-seedling mr-2"></i>Bili_YKChengZi
@@ -132,53 +114,123 @@
 
     <div class="tm-hero d-flex justify-content-center align-items-center">
         <div class="text-center mb-5">
-            <h1 class="text-white mb-4 display-4">UUID生成器</h1>
-            <p class="text-white lead mb-5 max-w-2xl mx-auto">快速生成唯一标识符，支持批量和多种格式！</p>
+            <h1 class="text-white mb-4 display-4">动态页面测试</h1>
+            <p class="text-white lead mb-5 max-w-2xl mx-auto">每次刷新页面，内容会不同！</p>
         </div>
     </div>
 
     <div class="container-fluid tm-container-content tm-mt-60">
-        <div class="row mb-8">
+        <div class="row mb-4">
             <div class="col-12">
-                <h2 class="tm-text-primary mb-4">UUID生成器</h2>
-                
-                <div class="row mb-4">
-                    <div class="col-md-3 mb-3">
-                        <label for="countInput" class="form-label font-weight-bold">生成数量</label>
-                        <input type="number" id="countInput" class="form-control" value="1" min="1" max="100">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3><i class="fas fa-refresh mr-2"></i>测试说明</h3>
                     </div>
-                    <div class="col-md-3 mb-3">
-                        <label for="formatSelect" class="form-label font-weight-bold">格式</label>
-                        <select id="formatSelect" class="form-control">
-                            <option value="standard">标准格式 (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)</option>
-                            <option value="uppercase">大写格式 (XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX)</option>
-                            <option value="nodash">无横杠 (xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx)</option>
-                            <option value="braced">大括号 ({xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx})</option>
-                        </select>
+                    <div class="card-body">
+                        <p>这个页面用 JavaScript 模拟动态效果。每次刷新，下面的内容会变化！</p>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> <strong>提示：</strong> 点击浏览器的刷新按钮（F5），看看下面的内容是否变化！
+                        </div>
                     </div>
                 </div>
-                
-                <div class="mb-4">
-                    <button id="generateBtn" class="btn btn-primary btn-action">
-                        <i class="fas fa-random mr-2"></i>生成UUID
-                    </button>
-                    <button id="copyBtn" class="btn btn-secondary btn-action">
-                        <i class="fas fa-copy mr-2"></i>复制结果
-                    </button>
-                    <button id="clearBtn" class="btn btn-danger btn-action">
-                        <i class="fas fa-trash mr-2"></i>清空
-                    </button>
-                </div>
-                
-                <div class="mb-4">
-                    <label for="uuidOutput" class="form-label font-weight-bold">生成结果</label>
-                    <textarea id="uuidOutput" class="form-control uuid-output" readonly placeholder="UUID将显示在这里..."></textarea>
-                </div>
-                
-                <div id="message" class="alert" role="alert" style="display: none;"></div>
             </div>
         </div>
-        
+
+        <div class="row mb-4">
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h3><i class="fas fa-dice mr-2"></i>随机数字</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>每次刷新生成新的随机数：</p>
+                        <div class="random-content" id="randomNumber">加载中...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h3><i class="fas fa-quote-left mr-2"></i>随机名言</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>每次刷新显示不同的名言：</p>
+                        <div class="random-content" id="randomQuote" style="font-size: 18px;">加载中...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h3><i class="fas fa-clock mr-2"></i>当前时间</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>页面加载时的时间：</p>
+                        <div class="random-content" id="currentTime">加载中...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h3><i class="fas fa-palette mr-2"></i>随机颜色</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>每次刷新显示不同的颜色：</p>
+                        <div class="random-content" id="randomColor" style="background-color: #ccc;">加载中...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h3><i class="fas fa-question-circle mr-2"></i>如何判断网站是不是动态的？</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>测试方法</th>
+                                        <th>静态网站</th>
+                                        <th>动态网站</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>刷新页面</td>
+                                        <td>内容完全一样</td>
+                                        <td>内容可能变化</td>
+                                    </tr>
+                                    <tr>
+                                        <td>看 URL</td>
+                                        <td>通常是 .html 结尾</td>
+                                        <td>可能有 ?、.php 等</td>
+                                    </tr>
+                                    <tr>
+                                        <td>用户登录</td>
+                                        <td>无法实现</td>
+                                        <td>可以实现</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i> <strong>注意：</strong> 这个页面只是用 JavaScript 模拟动态效果，您的网站实际上还是静态的！真正的动态网站需要服务器端程序（PHP、Node.js 等）。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <footer class="pt-5 pb-3 tm-footer" style="background: transparent;">
             <div class="container-fluid tm-container-small">
                 <div class="footer-divider mb-5"></div>
@@ -230,6 +282,7 @@
         $(window).on("load", function() {
             $("body").addClass("loaded");
             initNavIndicator();
+            generateDynamicContent();
         });
 
         function initNavIndicator() {
@@ -276,79 +329,38 @@
             });
         }
 
-        const countInput = document.getElementById('countInput');
-        const formatSelect = document.getElementById('formatSelect');
-        const generateBtn = document.getElementById('generateBtn');
-        const copyBtn = document.getElementById('copyBtn');
-        const clearBtn = document.getElementById('clearBtn');
-        const uuidOutput = document.getElementById('uuidOutput');
-        const message = document.getElementById('message');
-
-        function showMessage(text, type) {
-            message.textContent = text;
-            message.className = 'alert alert-' + type;
-            message.style.display = 'block';
-            setTimeout(() => {
-                message.style.display = 'none';
-            }, 3000);
-        }
-
-        function generateUUID() {
-            if (typeof crypto !== 'undefined' && crypto.randomUUID) {
-                return crypto.randomUUID();
-            }
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                const r = Math.random() * 16 | 0;
-                const v = c === 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
-        }
-
-        function formatUUID(uuid, format) {
-            switch(format) {
-                case 'uppercase':
-                    return uuid.toUpperCase();
-                case 'nodash':
-                    return uuid.replace(/-/g, '');
-                case 'braced':
-                    return '{' + uuid + '}';
-                default:
-                    return uuid;
-            }
-        }
-
-        generateBtn.addEventListener('click', () => {
-            const count = parseInt(countInput.value);
-            if (count < 1 || count > 100) {
-                showMessage('请输入1-100之间的数字', 'warning');
-                return;
-            }
+        function generateDynamicContent() {
+            const randomNumberDiv = document.getElementById('randomNumber');
+            const randomQuoteDiv = document.getElementById('randomQuote');
+            const currentTimeDiv = document.getElementById('currentTime');
+            const randomColorDiv = document.getElementById('randomColor');
             
-            const format = formatSelect.value;
-            const uuids = [];
+            const randomNum = Math.floor(Math.random() * 1000000);
+            randomNumberDiv.textContent = '🎲 随机数字: ' + randomNum;
             
-            for (let i = 0; i < count; i++) {
-                uuids.push(formatUUID(generateUUID(), format));
-            }
+            const quotes = [
+                '学到老，活到老。',
+                '不积跬步，无以至千里。',
+                '知识就是力量。',
+                '失败是成功之母。',
+                '行动胜于空谈。',
+                '时间就是金钱。',
+                '每一个不曾起舞的日子，都是对生命的辜负。',
+                '世界上最宽阔的是海洋，比海洋更宽阔的是天空，比天空更宽阔的是人的心灵。'
+            ];
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            randomQuoteDiv.textContent = '💬 "' + randomQuote + '"';
             
-            uuidOutput.value = uuids.join('\n');
-            showMessage(`成功生成 ${count} 个UUID！`, 'success');
-        });
-
-        copyBtn.addEventListener('click', () => {
-            if (uuidOutput.value) {
-                navigator.clipboard.writeText(uuidOutput.value).then(() => {
-                    showMessage('复制成功！', 'success');
-                }).catch(() => {
-                    showMessage('复制失败，请手动复制', 'danger');
-                });
-            }
-        });
-
-        clearBtn.addEventListener('click', () => {
-            uuidOutput.value = '';
-            message.style.display = 'none';
-        });
+            const now = new Date();
+            const timeStr = now.toLocaleString('zh-CN');
+            currentTimeDiv.textContent = '⏰ ' + timeStr;
+            
+            const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            randomColorDiv.style.backgroundColor = randomColor;
+            randomColorDiv.style.color = '#fff';
+            randomColorDiv.textContent = '🎨 颜色: ' + randomColor;
+        }
     </script>
 </body>
 </html>
