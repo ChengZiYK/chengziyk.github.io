@@ -29,6 +29,110 @@
             background-position: center;
             background-repeat: no-repeat;
         }
+        /* 简洁版的产品卡片布局 */
+        .tm-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px;
+        }
+        .tm-gallery-item {
+            padding: 0 15px;
+            margin-bottom: 30px;
+            width: 25%; /* 保持4列布局 */
+        }
+        @media (max-width: 992px) {
+            .tm-gallery-item {
+                width: 33.333%; /* 中等屏幕3列 */
+            }
+        }
+        @media (max-width: 768px) {
+            .tm-gallery-item {
+                width: 50%; /* 小屏幕2列 */
+            }
+        }
+        @media (max-width: 576px) {
+            .tm-gallery-item {
+                width: 100%; /* 超小屏幕1列 */
+            }
+        }
+        
+        /* 产品卡片样式 */
+        .tm-video-item {
+            position: relative;
+            display: block;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .tm-video-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .tm-video-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        .tm-video-item:hover img {
+            transform: scale(1.05);
+        }
+        .tm-video-item figcaption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .tm-video-item:hover figcaption {
+            opacity: 1;
+        }
+        .tm-video-item figcaption h2 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+        .tm-video-item figcaption a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        /* 产品描述样式 */
+        .tm-gallery-description {
+            padding: 10px 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .tm-gallery-title {
+            font-size: 1.1rem;
+            margin: 5px 0;
+            color: #333;
+        }
+        
+        /* 特色功能区域 */
+        .section-divider {
+            height: 3px;
+            width: 80px;
+            background-color: #009999;
+            margin: 20px 0 40px;
+        }
+        
+        /* 可悬停容器样式 */
+        .hoverable-container {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .hoverable-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25),
+                        0 8px 25px rgba(0, 0, 0, 0.18),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
         
         /* 内容区域背景（毛玻璃效果） */
         .tm-container-content {
@@ -110,6 +214,113 @@
             overflow: visible !important;
             text-overflow: clip !important;
             word-wrap: break-word;
+        }
+
+        /* 服务器状态卡片样式 */
+        .server-status-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .server-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .server-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .server-info {
+            flex-grow: 1;
+        }
+
+        .server-name-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .server-name {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin: 0;
+        }
+
+        .server-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .server-status.online {
+            color: #33cc66;
+        }
+
+        .server-status.offline {
+            color: #ff6666;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #33cc66;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .server-address {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .server-stats {
+            display: flex;
+            gap: 40px;
+            padding-top: 10px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .stat-value {
+            color: #1a1a2e;
+            font-size: 1.5rem;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -213,15 +424,47 @@
                     在这里，我们为每一位 Minecraft 爱好者打造一个纯粹、温馨、持久的游戏家园。无论你是喜欢悠闲建造、探索矿洞、还是热衷于挑战各种生存任务，这里都将是你理想的去处。
                 </p>
                 
+                <!-- 服务器状态卡片 -->
+                <div class="server-status-card">
+                    <div class="server-header">
+                        <img src="http://chengmao.jkun.cf:36779/api/icon?t=1780233812426" alt="橙猫服图标" class="server-icon">
+                        <div class="server-info">
+                            <div class="server-name-row">
+                                <h3 class="server-name">橙猫生存服务器</h3>
+                                <span class="server-status online">
+                                    <span class="status-dot"></span>
+                                    在线
+                                </span>
+                            </div>
+                            <div class="server-address">chengmao.jkun.cf:30411</div>
+                        </div>
+                    </div>
+                    <div class="server-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">在线玩家</span>
+                            <span class="stat-value" id="stat-online-players">--</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">版本</span>
+                            <span class="stat-value">Leaves 1.21.11</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">TPS</span>
+                            <span class="stat-value" id="stat-tps">--</span>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="mb-4">
                     <h3 class="tm-text-gray-dark mb-3">一些信息</h3>
                     <p>服务器版本为 <strong>1.21.11</strong> ，使用 <strong>Leaves</strong> 作为服务端。
-                    <br><span class="text-red">服务器禁止使用矿物透视（X-Ray）等工具，以维护游戏的公平性和完整性。</span>
+                    <br><span class="text-red">服务器<strong>禁止使用矿物透视（X-Ray）</strong>等工具，以维护游戏的公平性和完整性。</span>
                     <br>• <strong>领地</strong>：服务器内设有领地插件，玩家可以通过 <strong>/dom</strong> 指令来管理自己的领地，防止自己的赛博资产被恶意破坏。
                     <br>• <strong>跨版互通，自由畅玩</strong>：无论是 Minecraft Java 版还是基岩版的玩家，都能顺畅加入我们的服务器，与好友一起探索世界。
                     <br>• <strong>友善社区，和谐互助</strong>：我们倡导友好互助的社区氛围，鼓励玩家间互相帮助，共同营造轻松愉快的游戏环境。
                     <br>• <strong>数据安全，一键回档</strong>：为了守护大家的建筑与财产，我们部署了 CoreProtect 插件，如遇意外情况可快速恢复，让你游玩无后顾之忧。
-                    <br>• <strong>点券系统</strong>：服务器使用了 PlayerPoints 插件，玩家可以在服务器内购买点券，用于购买称号等内容，且获取点券完全免费。
+                        另外，我们开放了 /co i 命令，任何玩家都可使用此命令进行检查自己的劳动成果被谁更改或使用过。
+                    <br>• <strong>点券系统</strong>：服务器使用了 PlayerPoints 插件，玩家可以在服务器内获取点券，用于购买称号等内容，且获取点券完全免费。
                     <br>• <strong>获取点券的方法</strong>：服务器设有在线奖励系统，玩家可以通过累计在线时长获取点券。每日在线30分钟可获得15点券，60分钟可获得30点券，120分钟可获得600点券，240分钟可获得1200点券。每周在线500分钟可额外获得5000点券，每月在线1000分钟可获得10000点券，每年在线10000分钟可获得100000点券，累计在线20000分钟更可获得200000点券大奖。另外，您也可以在每日的签到中获取。
                     <br>• <strong>称号系统</strong>：我们配置了丰富的称号系统，称号可以使用点券进行购买，部分特色称号还会带来独特的增益效果，让你的生存之旅更加精彩！</p>
                 </div>
@@ -250,6 +493,118 @@
             </div>
         </div>
     </div>
+
+    <!-- 相关链接 -->
+    <div class="container-fluid tm-container-content tm-mt-60 hoverable-container" style="background-color: #EEEEEE;">
+        <div class="row mb-4">
+            <h2 class="col-12 tm-text-primary">相关链接</h2>
+        </div>
+        <div class="row tm-mb-90">            
+            <div class="col-xl-12">
+                <div style="padding: 20px;">
+                    <p class="mb-6 tm-text-gray">关于本服务器的相关链接</p>
+                    <div class="section-divider"></div>
+                    
+                    <div class="tm-gallery">
+                        <!-- 产品卡片 1 -->
+                        <div class="tm-gallery-item">
+                            <figure class="tm-video-item">
+                                <img src="img/resource-status.jpeg" alt="服务器资源监控页面" class="img-fluid">
+                                <figcaption>
+                                    <h2>服务器资源状态页面</h2>
+                                    <a href="/resource-status/index.html">查看更多</a>
+                                </figcaption>                    
+                            </figure>
+                            <div class="tm-gallery-description">
+                                <div class="tm-gallery-title">服务器详情</div>
+                            </div>
+                        </div>
+                        <div class="tm-gallery-item">
+                            <figure class="tm-video-item">
+                                <img src="img/wdsjfwq.jpeg" alt="服务器详情" class="img-fluid">
+                                <figcaption>
+                                    <h2>服务器详情 - 我的世界服务器站</h2>
+                                    <a href="https://www.wdsjfwq.com/server-1685.html">查看更多</a>
+                                </figcaption>                    
+                            </figure>
+                            <div class="tm-gallery-description">
+                                <div class="tm-gallery-title">服务器详情</div>
+                            </div>
+                        </div>
+                        <div class="tm-gallery-item">
+                            <figure class="tm-video-item">
+                                <img src="img/guanwang.jpeg" alt="橙猫服官网" class="img-fluid">
+                                <figcaption>
+                                    <h2>橙猫服官网</h2>
+                                    <a href="https://cheng-mao-mc.rth1.xyz/">查看更多</a>
+                                </figcaption>                    
+                            </figure>
+                            <div class="tm-gallery-description">
+                                <div class="tm-gallery-title">橙猫服官网</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 相关链接 -->
+    <div class="container-fluid tm-container-content tm-mt-60 hoverable-container" style="background-color: #EEEEEE;">
+        <div class="row mb-4">
+            <h2 class="col-12 tm-text-primary">相关链接</h2>
+        </div>
+        <div class="row tm-mb-90">            
+            <div class="col-xl-12">
+                <div style="padding: 20px;">
+                    <p class="mb-6 tm-text-gray">关于本服务器的相关链接</p>
+                    <div class="section-divider"></div>
+                    
+                    <div class="tm-gallery">
+                        <!-- 产品卡片 1 -->
+                        <div class="tm-gallery-item">
+                            <figure class="tm-video-item">
+                                <img src="img/resource-status.jpeg" alt="服务器资源监控页面" class="img-fluid">
+                                <figcaption>
+                                    <h2>服务器资源状态页面</h2>
+                                    <a href="/resource-status/index.html">查看更多</a>
+                                </figcaption>                    
+                            </figure>
+                            <div class="tm-gallery-description">
+                                <div class="tm-gallery-title">服务器详情</div>
+                            </div>
+                        </div>
+                        <div class="tm-gallery-item">
+                            <figure class="tm-video-item">
+                                <img src="img/wdsjfwq.jpeg" alt="服务器详情" class="img-fluid">
+                                <figcaption>
+                                    <h2>服务器详情 - 我的世界服务器站</h2>
+                                    <a href="/resource-status/index.html">查看更多</a>
+                                </figcaption>                    
+                            </figure>
+                            <div class="tm-gallery-description">
+                                <div class="tm-gallery-title">服务器详情</div>
+                            </div>
+                        </div>
+                        <div class="tm-gallery-item">
+                            <figure class="tm-video-item">
+                                <img src="img/wdsjfwq.jpeg" alt="服务器详情" class="img-fluid">
+                                <figcaption>
+                                    <h2>橙猫服官网</h2>
+                                    <a href="/resource-status/index.html">查看更多</a>
+                                </figcaption>                    
+                            </figure>
+                            <div class="tm-gallery-description">
+                                <div class="tm-gallery-title">服务器详情</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer class="pt-5 pb-3 tm-footer" style="background: transparent;">
         <div class="container-fluid tm-container-small">
             <div class="footer-divider mb-5"></div>
@@ -303,7 +658,7 @@
         </div>
     </footer>
 </div>
-    
+
     <script src="js/plugins.js"></script>
     <script>
         // 页面加载完成后移除加载动画
@@ -311,8 +666,10 @@
             $('body').addClass('loaded');
             initNavIndicator();
             fetchPlayerCount();
-            // 每30秒刷新一次在线玩家人数
+            fetchServerStatus();
+            // 每30秒刷新一次
             setInterval(fetchPlayerCount, 30000);
+            setInterval(fetchServerStatus, 30000);
         });
 
         // 获取在线玩家人数
@@ -346,6 +703,45 @@
                 console.error('获取玩家人数失败:', error);
                 onlineCountElement.textContent = '获取失败';
                 onlineCountElement.style.color = '#FF6666';
+            }
+        }
+
+        // 加载服务器状态数据
+        async function fetchServerStatus() {
+            try {
+                // 获取玩家数据
+                let playersData;
+                try {
+                    const playersResponse = await fetch('http://chengmao.jkun.cf:36779/open-api/players');
+                    playersData = await playersResponse.json();
+                } catch {
+                    const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                    const playersResponse = await fetch(proxyUrl + encodeURIComponent('http://chengmao.jkun.cf:36779/open-api/players'));
+                    playersData = await playersResponse.json();
+                }
+
+                if (playersData.code === 200 && playersData.players) {
+                    const onlinePlayers = playersData.players.filter(p => p.isOnline === true).length;
+                    document.getElementById('stat-online-players').textContent = `${onlinePlayers} / 20`;
+                }
+
+                // 获取监控数据
+                let monitorData;
+                try {
+                    const monitorResponse = await fetch('http://chengmao.jkun.cf:36779/open-api/monitor');
+                    monitorData = await monitorResponse.json();
+                } catch {
+                    const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                    const monitorResponse = await fetch(proxyUrl + encodeURIComponent('http://chengmao.jkun.cf:36779/open-api/monitor'));
+                    monitorData = await monitorResponse.json();
+                }
+
+                if (monitorData.code === 200) {
+                    const tps = monitorData.tps || 20;
+                    document.getElementById('stat-tps').textContent = tps.toFixed(2);
+                }
+            } catch (error) {
+                console.error('获取服务器状态失败:', error);
             }
         }
 

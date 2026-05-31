@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>橙猫服务器 - 状态监测页面</title>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="shortcut icon" type="image/png" href="../img/CZ.ico">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><iconify-icon icon="mdi:cat"></iconify-icon> 橙猫服务器</h1>
+            <p class="subtitle" id="serverStatusText">服务器还活着，放心玩 AwA</p>
+        </div>
+
+        <div class="server-info">
+            <div class="server-info-grid">
+                <div class="server-info-item">
+                    <iconify-icon icon="mdi:account-group"></iconify-icon>
+                    <div class="value" id="onlinePlayersCount">--</div>
+                    <div class="label">在线玩家</div>
+                </div>
+                <div class="server-info-item">
+                    <iconify-icon icon="mdi:account-multiple"></iconify-icon>
+                    <div class="value" id="totalPlayersCount">--</div>
+                    <div class="label">注册玩家</div>
+                </div>
+                <div class="server-info-item">
+                    <iconify-icon icon="mdi:earth"></iconify-icon>
+                    <div class="value" id="serverStatus">检查中</div>
+                    <div class="label">服务器状态</div>
+                </div>
+                <div class="server-info-item">
+                    <iconify-icon icon="mdi:update"></iconify-icon>
+                    <div class="value" id="lastUpdate">--</div>
+                    <div class="label">最后更新</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <iconify-icon icon="mdi:account-check"></iconify-icon>
+                        在线玩家
+                    </h2>
+                    <div class="status-dot" id="playersStatus"></div>
+                </div>
+                <div id="playersContent" class="loading">
+                    <iconify-icon icon="mdi:loading"></iconify-icon>
+                    <p>加载中...</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <iconify-icon icon="mdi:information"></iconify-icon>
+                        服务器信息
+                    </h2>
+                    <div class="status-dot" id="infoStatus"></div>
+                </div>
+                <div id="infoContent">
+                    <div class="metric">
+                        <span class="metric-label">版本</span>
+                        <span class="metric-value">Leaves 1.21.11</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Java版</span>
+                        <span class="metric-value">chengmao.jkun.cf:30411</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">基岩版</span>
+                        <span class="metric-value">chengmao.jkun.cf:19526</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">跨版</span>
+                        <span class="metric-value">Java 1.9～1.21.11</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <iconify-icon icon="mdi:gauge"></iconify-icon>
+                        系统状态
+                    </h2>
+                    <div class="status-dot" id="systemStatus"></div>
+                </div>
+                <div id="systemContent">
+                    <div class="metric" onclick="toggleChart('cpu')">
+                        <div class="metric-header">
+                            <span class="metric-label">CPU</span>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span class="metric-value good" id="cpuValue">--</span>
+                                <iconify-icon icon="mdi:chevron-down" class="expand-icon" id="cpuExpand"></iconify-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill good" id="cpuProgress" style="width: 0%"></div>
+                    </div>
+                    <div class="chart-container" id="cpuChartContainer">
+                        <svg class="chart" id="cpuChart" viewBox="0 0 400 160"></svg>
+                    </div>
+                    
+                    <div class="metric" onclick="toggleChart('memory')">
+                        <div class="metric-header">
+                            <span class="metric-label">内存</span>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span class="metric-value good" id="memoryValue">--</span>
+                                <iconify-icon icon="mdi:chevron-down" class="expand-icon" id="memoryExpand"></iconify-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill good" id="memoryProgress" style="width: 0%"></div>
+                    </div>
+                    <div class="chart-container" id="memoryChartContainer">
+                        <svg class="chart" id="memoryChart" viewBox="0 0 400 160"></svg>
+                    </div>
+                    
+                    <div class="metric" onclick="toggleChart('ping')">
+                        <div class="metric-header">
+                            <span class="metric-label">延迟</span>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span class="metric-value good" id="pingValue">--</span>
+                                <iconify-icon icon="mdi:chevron-down" class="expand-icon" id="pingExpand"></iconify-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-container" id="pingChartContainer">
+                        <svg class="chart" id="pingChart" viewBox="0 0 400 160"></svg>
+                    </div>
+                    
+                    <div class="metric metric-no-chart" style="margin-top: 18px;">
+                        <span class="metric-label">TPS</span>
+                        <span class="metric-value good" id="tpsValue">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-bottom">
+            <div class="card" style="--rotate: 0.5deg;">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <iconify-icon icon="mdi:information"></iconify-icon>
+                        基本信息
+                    </h2>
+                </div>
+                <div id="configContent">
+                    <div class="config-item">
+                        <div class="config-label">CPU 使用率</div>
+                        <div class="config-value">加载中...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="--rotate: -0.8deg;">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <iconify-icon icon="mdi:puzzle"></iconify-icon>
+                        插件列表（我直接一个公开）
+                    </h2>
+                    <div class="status-dot" id="pluginsStatus"></div>
+                </div>
+                <div id="pluginsContent" class="loading">
+                    <iconify-icon icon="mdi:loading"></iconify-icon>
+                    <p>加载中...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>橙猫生存服务器 | 监控面板 v1.0</p>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
